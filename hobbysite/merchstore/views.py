@@ -1,9 +1,8 @@
 # merchstore/views.py
 
-from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
-from .models import ProductType, Product
+from .models import Product
 
 class ProductTypeListView(ListView):
     model = Product
