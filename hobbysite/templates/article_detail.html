@@ -1,8 +1,7 @@
-<!-- article_detail.html -->
 {% extends 'base.html' %}
 
 {% block title %}
-    Article List
+    <h1>Blog Detail</h1>
 {% endblock title %}
 
 {% block styles %}
@@ -56,6 +55,9 @@
 {% endblock styles %}
 
 {% block content %}
+    <h1>
+        <a href="/blog/articles">Blog</a>
+    <h1>
         <h1>{{ article.title }}</h1>
         <p><strong>Category:</strong> {{ article.category.name }}</p>
         <p><strong>Created On:</strong> {{ article.created_on }}</p>

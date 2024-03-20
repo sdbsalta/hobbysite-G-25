@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Article List
+    Blog
 {% endblock title %}
 
 {% block styles %}
@@ -55,6 +55,9 @@
 {% endblock styles %}
 
 {% block content %}
+    <h1>
+        <a href="/blog/articles">Blog</a>
+    <h1>
     <ul>
         {% for article in articles %}
             <li>
