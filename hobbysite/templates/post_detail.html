@@ -11,8 +11,8 @@
 {% block content %}
     <h1>
         <a href="{% url 'forum:post_list' %}">Forum</a>
-    <h1>
-    <h1>{{ object.title }}</h1>
+    </h1>
+    <h2>{{ object.title }}</h2>
     <p>Category: {{ object.category }}</p>
     <p>{{ object.entry }}</p>
     <p>Created On: {{ object.created_on }}</p>
