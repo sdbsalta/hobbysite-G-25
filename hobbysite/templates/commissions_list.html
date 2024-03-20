@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+
 {% block title %}
     Commissions: Commission
 {% endblock title %}
@@ -11,10 +13,10 @@
         <a href="/commissions/list">Commissions</a>
     </h1>
     <ul>
-        {% for comment in object_list %}
+        {% for commission in object_list %}
             <li>
-                <a href="{{ product.get_absolute_url }}">
-                    {{ comment }}
+                <a href="{{ commission.get_absolute_url }}">
+                    {{ commission }}
                 </a>
             </li>
         {% endfor %}
