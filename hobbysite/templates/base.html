@@ -4,17 +4,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>
-           {% block title %}
-              Forum
-          {% endblock %}
+            {% block title %}
+            {% endblock %}
          </title>
         {% block styles %}
         {% endblock styles%}
     </head>
     <body>
-        <h1>
-            <a href="{% url 'forum:post_list' %}">Forum</a>
-        </h1>
         <div id="content">
             {% block content %}
             {% endblock content%}
