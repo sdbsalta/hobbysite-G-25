@@ -4,13 +4,14 @@
     Commissions: Commission
 {% endblock title %}
 
+{% block styles %}
+    <link rel="stylesheet" href="./style.css">
+{% endblock styles %}
+
 {% block content %}
-    <h1>
-        <a href="/commissions/list">Commissions</a>
-    </h1>
     <h1>{{ commission.title }}</h1>
     <p>Description: {{ commission.description }}</p>
     <p>People Required: {{ commission.people_required }}</p>
     <p>Created On: {{ commission.created_on }}</p>
     <p>Updated On: {{ commission.updated_on }}</p>
-{% endblock %}
+{% endblock content %}
