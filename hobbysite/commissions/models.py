@@ -15,6 +15,9 @@ class Commission(models.Model):
     
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('commissions:commissions_detail', args=[self.pk])
 
 class Comment(models.Model):
     commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name='comments')
@@ -29,4 +32,4 @@ class Comment(models.Model):
         return f"Comment by {self.commission} ({self.created_on})"
     
     def get_absolute_url(self):
-        return reverse('commissions:comment-detail', args=[self.pk])
+        return reverse('commissions:commissions_detail', args=[self.pk])
