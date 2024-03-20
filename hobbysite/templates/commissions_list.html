@@ -1,0 +1,22 @@
+{% block title %}
+    Commissions: Commission
+{% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="./style.css">
+{% endblock styles %}
+
+{% block content %}
+    <h1>
+        <a href="/commissions/list">Commissions</a>
+    </h1>
+    <ul>
+        {% for comment in object_list %}
+            <li>
+                <a href="{{ product.get_absolute_url }}">
+                    {{ comment }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

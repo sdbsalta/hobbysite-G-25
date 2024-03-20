@@ -14,9 +14,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
-#hobbysite/urls.py
-
 from django.contrib import admin
 from django.urls import path, include
 
@@ -25,5 +22,5 @@ urlpatterns = [
     path('merchstore/', include('merchstore.urls', namespace = 'merchstore')),
     path('blog/', include('blog.urls')),
     path('forum/', include('forum.urls', namespace='forum')),
-
+    path('commissions/', include('commissions.urls', namespace='commissions'))
 ]
