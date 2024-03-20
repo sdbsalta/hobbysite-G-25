@@ -27,3 +27,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.commission} ({self.created_on})"
+    
+    def get_absolute_url(self):
+        return reverse('commissions:comment-detail', args=[self.pk])
