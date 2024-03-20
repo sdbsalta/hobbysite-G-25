@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ commission.title }}</h1>
+    <p>Description: {{ commission.description }}</p>
+    <p>People Required: {{ commission.people_required }}</p>
+    <p>Created On: {{ commission.created_on }}</p>
+    <p>Updated On: {{ commission.updated_on }}</p>
+{% endblock %}
