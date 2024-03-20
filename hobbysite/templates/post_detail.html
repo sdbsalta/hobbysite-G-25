@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Post Details
+{% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="./style.css">
+{% endblock styles %}
+
+{% block content %}
+    <h1>
+        <a href="{% url 'forum:post_list' %}">Forum</a>
+    </h1>
+    <h2>{{ object.title }}</h2>
+    <p>Category: {{ object.category }}</p>
+    <p>{{ object.entry }}</p>
+    <p>Created On: {{ object.created_on }}</p>
+    <p>Updated On: {{ object.updated_on }}</p>
+{% endblock content %}
