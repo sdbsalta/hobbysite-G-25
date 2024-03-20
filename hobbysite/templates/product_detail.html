@@ -1,16 +1,45 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Product Details
+    Merch Store: Product Details
 {% endblock title %}
 
 {% block styles %}
-    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #BDB2FF;
+            color:rgb(84, 70, 166);
+        }
+
+        h1 {
+            color:rgb(43, 30, 115);
+        }
+
+        a {
+            text-decoration: none;
+            color:rgb(84, 70, 166);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #ffffff; 
+        }
+
+        a:active {
+            text-decoration: underline; 
+        }
+    </style>
 {% endblock styles %}
 
 {% block content %}
-    <h1>{{ product.name }}</h1>
-    <p>Product Type: {{ product.product_type }}</p>
-    <p>Description: {{ product.description }}</p>
-    <p>Price: {{ product.price }}</p>
+    <div class="container">
+        <h1>
+            <a href="/merchstore/items">Merch Store</a>
+        </h1>
+        <h2>{{ product.name }}</h2>
+        <p>Product Type: {{ product.product_type }}</p>
+        <p>Description: {{ product.description }}</p>
+        <p>Price: {{ product.price }}</p>
+    </div>
 {% endblock content %}
