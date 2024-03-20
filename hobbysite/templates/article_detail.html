@@ -1,13 +1,11 @@
 <!-- article_detail.html -->
 {% extends 'base.html' %}
 
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ article.title }}</title>
+{% block title %}
+    Article List
+{% endblock title %}
+
+{% block styles %}
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -55,15 +53,12 @@
             transform: scale(1.1); 
         }
     </style>
-</head>
-<body>
-    <div class="container">
+{% endblock styles %}
+
+{% block content %}
         <h1>{{ article.title }}</h1>
         <p><strong>Category:</strong> {{ article.category.name }}</p>
         <p><strong>Created On:</strong> {{ article.created_on }}</p>
         <p><strong>Updated On:</strong> {{ article.updated_on }}</p>
         <p>{{ article.entry|linebreaks }}</p>
-    </div>
-</body>
-</html>
-{% endblock %}
+{% endblock content %}

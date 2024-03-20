@@ -1,13 +1,10 @@
-<!-- article_list.html -->
 {% extends 'base.html' %}
 
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article List</title>
+{% block title %}
+    Article List
+{% endblock title %}
+
+{% block styles %}
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -55,16 +52,14 @@
             transform: scale(1.1); 
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Article List</h1>
-        <ul>
-            {% for article in articles %}
-                <li><a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-</body>
-</html>
+{% endblock styles %}
+
+{% block content %}
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
