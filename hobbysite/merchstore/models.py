@@ -3,7 +3,7 @@
 from django.db import models
 from django.urls import reverse
 
-from hobbysite.user_manangement.models import Profile
+from user_management.models import Profile
 
 class ProductType(models.Model):
     name = models.CharField(max_length=255)
