@@ -7,4 +7,4 @@ from .models import Profile
 
 class ProfileView(DetailView):
     model = Profile
-    template_name = ""
+    template_name = "profile.html"
