@@ -17,9 +17,9 @@ class ProductType(models.Model):
 
 class Product(models.Model):
     STATUS_CHOICES = [
-        ('Available'),
-        ('On sale'),
-        ('Out of stock')
+        ('available', 'Available'),
+        ('out_of_stock', 'Out of Stock'),
+        ('discontinued', 'Discontinued'),
     ]
 
     name = models.CharField(max_length=255)
@@ -28,14 +28,16 @@ class Product(models.Model):
         ProductType, 
         on_delete=models.SET_NULL, 
         null=True, 
-        blank=True)
+        blank=True
+        )
     owner = models.ForeignKey(
         Profile, 
+        null=True,
         on_delete=models.CASCADE
         )
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField(null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Available')
     
     def __str__(self):
@@ -49,11 +51,11 @@ class Product(models.Model):
 
 class Transaction(models.Model):
     STATUS_CHOICES = (
-        ('On cart'),
-        ('To Pay'),
-        ('To Ship'),
-        ('To Receive'),
-        ('Delivered'),
+        ('on cart', 'On cart'),
+        ('to pay', 'To Pay'),
+        ('to ship', 'To Ship'),
+        ('to receive', 'To Receive'),
+        ('delivered', 'Delivered'),
     )
     
     buyer = models.ForeignKey(
