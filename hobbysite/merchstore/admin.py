@@ -2,8 +2,7 @@
 
 from django.contrib import admin
 from .models import ProductType, Product
-
-
+    
 class ProductTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
     search_fields = ('name',)
