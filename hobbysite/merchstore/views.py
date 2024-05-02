@@ -37,9 +37,9 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "product_detail.html"
 
 class ProductCartView(LoginRequiredMixin, ListView):
+    model = Transaction
     template_name = 'product_cart.html'
     context_object_name = 'categorized_transactions'
-    model = Transaction
 
     def cart_view(request):
         if request.user.is_authenticated:
@@ -60,5 +60,24 @@ class ProductCartView(LoginRequiredMixin, ListView):
             }
 
             return render(request, 'product_cart.html', ctx)
+
+class ProductTransactionView(LoginRequiredMixin, ListView):
+    model = Transaction
+    template_name = 'product_transaction.html'
+    context_object_name = 'transactions'
+
+    def get_queryset(self):
+        user_profile = self.request.user.profile
+        user_transactions = Transaction.objects.filter(product__owner=user_profile)
+
+        transactions_by_owner = {}
+        for transaction in user_transactions:
+            product_buyer = transaction.buyer
+            if product_buyer in transactions_by_owner:
+                transactions_by_owner[product_buyer].append(transaction)
+            else:
+                transactions_by_owner[product_buyer] = [transaction]
+
+        return transactions_by_owner
 
         
