@@ -7,8 +7,13 @@ from .models import Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'product_type', 'status', 'stock', 'price']
+        exclude = ['owner']  
         widgets = {
             'product_type': forms.Select(),
             'status': forms.Select(),
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'owner' in self.fields:
+            self.fields['owner'].disabled = True

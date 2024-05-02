@@ -15,7 +15,9 @@ class ProductTypeListView(LoginRequiredMixin, ListView):
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
-    
+
+#TODO All fields should be available with the Owner field set to the logged-in user (not editable).
+
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
