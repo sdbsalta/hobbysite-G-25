@@ -7,4 +7,8 @@ from .models import Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['name', 'description', 'product_type', 'status']
+        widgets = {
+            'product_type': forms.Select(),
+            'status': forms.Select(),
+        }
