@@ -1,10 +1,11 @@
 # merchstore/views.py
 
+from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Product
+from .models import Product, Transaction
 from .forms import ProductForm
 
 class ProductTypeListView(LoginRequiredMixin, ListView):
@@ -34,5 +35,30 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "product_detail.html"
-    
-    
+
+class ProductCartView(LoginRequiredMixin, ListView):
+    template_name = 'product_cart.html'
+    context_object_name = 'categorized_transactions'
+    model = Transaction
+
+    def cart_view(request):
+        if request.user.is_authenticated:
+            user = request.user
+            user_transactions = Transaction.objects.filter(buyer=user)
+
+            transactions_by_owner = {}
+
+            for transaction in user_transactions:
+                product_owner = transaction.product.owner
+                if product_owner in transactions_by_owner:
+                    transactions_by_owner[product_owner].append(transaction)
+                else:
+                    transactions_by_owner[product_owner] = [transaction]
+
+            ctx = {
+                'transactions_by_owner': transactions_by_owner
+            }
+
+            return render(request, 'product_cart.html', ctx)
+
+        
