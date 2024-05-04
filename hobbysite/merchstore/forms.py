@@ -7,7 +7,7 @@ from .models import Product, Transaction
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['owner']
+        fields = ['name', 'owner', 'product_type', 'description','price','stock', 'status']
         widgets = {
             'product_type': forms.Select(),
             'status': forms.Select(),

@@ -25,7 +25,6 @@ class Product(models.Model):
     ]
 
     name = models.CharField(max_length=255)
-    #TODO determined by developers and cannot be modified by regular users
     product_type = models.ForeignKey(
         ProductType, 
         on_delete=models.SET_NULL, 
@@ -35,7 +34,7 @@ class Product(models.Model):
     owner = models.ForeignKey(
         Profile, 
         null=True,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
         )
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
