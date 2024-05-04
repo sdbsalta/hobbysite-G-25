@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{% if article %}Edit Article{% else %}Create Article{% endif %}</h1>
+  <form action="{% if article %}{% url 'article_update_view' article.pk %}{% else %}{% url 'article_create_view' %}{% endif %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}
+
+<!-- comment_form.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Post Comment</h1>
+  <form action="{% url 'comment_create_view' article.pk %}" method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Post Comment</button>
+  </form>
+{% endblock %}
+

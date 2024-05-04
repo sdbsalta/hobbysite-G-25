@@ -51,16 +51,35 @@
             color: #4a4e3f; 
             transform: scale(1.1); 
         }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px; /* Adjust as needed */
+        }
     </style>
 {% endblock styles %}
 
 {% block content %}
-    <h1>
-        <a href="/blog/articles">Blog</a>
-    </h1>
-        <h2>{{ article.title }}</h2>
-        <p><strong>Category:</strong> {{ article.category.name }}</p>
-        <p><strong>Created On:</strong> {{ article.created_on }}</p>
-        <p><strong>Updated On:</strong> {{ article.updated_on }}</p>
-        <p>{{ article.entry|linebreaks }}</p>
+<div class="container">
+    <h1><a href="{% url 'blog:article_list' %}">Blog</a></h1>
+    <h2>{{ article.title }}</h2>
+    <p><strong>Category:</strong> {{ article.category.name }}</p>
+    <p><strong>Created On:</strong> {{ article.created_on }}</p>
+    <p><strong>Updated On:</strong> {{ article.updated_on }}</p>
+    {% if article.header_image %}
+    <p>Image URL: {{ article.header_image.url }}</p>
+    <img src="{{ article.header_image.url }}" alt="Header Image">
+{% else %}
+    <p>No header image available.</p>
+{% endif %}
+    <p>{{ article.entry|linebreaks }}</p>
+
+    <h2>Comments</h2>
+    {% for comment in article.comment_set.all %}
+        <p>{{ comment.entry }}</p>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+</div>
 {% endblock content %}
