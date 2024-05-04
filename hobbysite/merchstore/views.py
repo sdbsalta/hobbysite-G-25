@@ -28,11 +28,15 @@ class ProductDetailView(DetailView, CreateView):
 
     def post(self, request, *args, **kwargs):
         form = TransactionForm(request.POST)
+        product = self.get_object()
+        
         if form.is_valid():
-            product = self.get_object()
-            product.stock -= form.cleaned_data['quantity']
-            product.save()
-            return redirect('product_detail', pk=product.pk) 
+            if request.user.is_authenticated:
+                product.stock -= form.cleaned_data['amount']
+                product.save()
+                return redirect('merchstore:cart') 
+            else:
+                return redirect('login')
         return self.render_to_response(self.get_context_data(form=form))
 
 
