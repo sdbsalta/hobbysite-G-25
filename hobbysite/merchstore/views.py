@@ -17,8 +17,9 @@ class ProductTypeListView(ListView):
         context['product_type'] = ProductType.objects.all()
         return context
 
-class ProductDetailView(DetailView):
+class ProductDetailView(DetailView, CreateView):
     model = Product
+    form_class = TransactionForm
     template_name = 'product_detail.html'
     
     def form_valid(self, form):
@@ -55,11 +56,6 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 class ProductCartView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'cart.html'
-    
-class TransactionView(LoginRequiredMixin, CreateView):
-    model = Transaction
-    form_class = TransactionForm
-    template_name = 'transaction.html'
 
 class ProductTransactionListView(LoginRequiredMixin, ListView):
     model = Transaction

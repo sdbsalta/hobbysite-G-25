@@ -1,7 +1,7 @@
 # merchstore/urls.py
 
 from django.urls import path
-from .views import ProductTypeListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductCartView, ProductTransactionView
+from .views import ProductTypeListView, ProductDetailView, ProductCreateView, ProductUpdateView, ProductCartView, ProductTransactionListView
 
 urlpatterns = [
     path('items/', ProductTypeListView.as_view(), name='list'),
@@ -9,7 +9,7 @@ urlpatterns = [
     path('item/<int:pk>/edit/', ProductUpdateView.as_view(), name="product-update"),
     path('item/add/', ProductCreateView.as_view(), name='product-add'), 
     path('cart/',ProductCartView.as_view(), name='cart'),
-    path('transactions/',ProductTransactionView.as_view(), name='transactions'),
+    path('transactions/',ProductTransactionListView.as_view(), name='transactions'),
 ]
 
 app_name = 'merchstore'

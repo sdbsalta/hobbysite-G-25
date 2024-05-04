@@ -16,6 +16,6 @@ class ProductForm(forms.ModelForm):
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
-        exclude = ['buyer', 'status', 'created_on']
+        exclude = ['product', 'buyer', 'status', 'created_on']
         
     
