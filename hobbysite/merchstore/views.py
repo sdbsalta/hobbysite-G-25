@@ -32,13 +32,16 @@ class ProductDetailView(DetailView, CreateView):
         
         if form.is_valid():
             if request.user.is_authenticated:
-                product.stock -= form.cleaned_data['amount']
+                transaction = form.save(commit=False)
+                transaction.product = product
+                transaction.buyer = request.user.profile
+                transaction.save()
+                
+                product.stock -= transaction.amount
                 product.save()
-                return redirect('merchstore:cart') 
             else:
                 return redirect('login')
         return self.render_to_response(self.get_context_data(form=form))
-
 
 class ProductCreateView(CreateView):
     model = Product
@@ -68,9 +71,16 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 class ProductCartView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'cart.html'
+    context_object_name = 'transactions'
+    
+    def get_transactions(self):
+        transactions = Transaction.objects.filter(buyer=self.request.user.profile)
+        
+        print(transactions)
+        return Transaction.objects.filter(buyer=self.request.user.profile)
 
 class ProductTransactionListView(LoginRequiredMixin, ListView):
-    model = Transaction
+    model = Product
     template_name = 'transaction_list.html'
     
 

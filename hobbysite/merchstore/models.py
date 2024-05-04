@@ -72,3 +72,7 @@ class Transaction(models.Model):
     amount = models.PositiveIntegerField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     created_on = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return str(self.product)
+    

@@ -3,6 +3,13 @@
 {% block title %}
      Merch Store: Cart
 {% endblock title %}
-
+     <h1>Cart</h1>
+     {% if request.user.is_authenticated %}
+          <ul>
+               {% for transaction in transactions %}
+                    <li>{{ transaction.product }}</li>
+               {% endfor %}
+          </ul>
+     {% endif %}
 {% block content %}
 {% endblock content %}
