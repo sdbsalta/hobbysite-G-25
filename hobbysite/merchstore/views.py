@@ -56,6 +56,14 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'product_update.html'
+    
+    def form_valid(self, form):
+        product = self.get_object()
+        if form.is_valid():
+            if product.stock == 0:
+                form.cleaned_data['status'] = 'Out of Stock'
+        product.save()
+        return super().form_valid(form)
 
 class ProductCartView(LoginRequiredMixin, ListView):
     model = Transaction

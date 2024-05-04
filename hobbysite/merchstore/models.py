@@ -19,9 +19,9 @@ class ProductType(models.Model):
 
 class Product(models.Model):
     STATUS_CHOICES = [
-        ('available', 'Available'),
-        ('on sale', 'On Sale'),
-        ('out of stock', 'Out of Stock'),
+        ('Available', 'Available'),
+        ('On Sale', 'On Sale'),
+        ('Out of Stock', 'Out of Stock'),
     ]
 
     name = models.CharField(max_length=255)
@@ -52,11 +52,11 @@ class Product(models.Model):
 
 class Transaction(models.Model):
     STATUS_CHOICES = (
-        ('on cart', 'On cart'),
-        ('to pay', 'To Pay'),
-        ('to ship', 'To Ship'),
-        ('to receive', 'To Receive'),
-        ('delivered', 'Delivered'),
+        ('On cart', 'On cart'),
+        ('To Pay', 'To Pay'),
+        ('To ship', 'To Ship'),
+        ('To receive', 'To Receive'),
+        ('Delivered', 'Delivered'),
     )
     
     buyer = models.ForeignKey(

@@ -13,6 +13,7 @@
     <p>Description: {{ product.description }}</p>
     <p>Price: {{ product.price }}</p>
     <p>Stock: {{ product.stock }}</p>
+    <p>Status: {{ product.status }}</p>
     {% if product.owner != request.user.profile %}
         <h4>Purchase a Product</h4>
         <form method="POST">
