@@ -21,11 +21,20 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['transaction_form'] = TransactionForm()
-        return context
-    
+    def form_valid(self, form):
+        form.instance.buyer = self.request.user.profile
+        return super().form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            product = self.get_object()
+            product.stock -= form.cleaned_data['quantity']
+            product.save()
+            return redirect('product_detail', pk=product.pk) 
+        return self.render_to_response(self.get_context_data(form=form))
+
+
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
@@ -45,12 +54,18 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
 class ProductCartView(LoginRequiredMixin, ListView):
     model = Transaction
-    template_name = 'product_cart.html'
-
-class ProductTransactionView(LoginRequiredMixin, ListView):
-    model = Transaction
-    template_name = 'product_transaction.html'
+    template_name = 'cart.html'
     
+class TransactionView(LoginRequiredMixin, CreateView):
+    model = Transaction
+    form_class = TransactionForm
+    template_name = 'transaction.html'
+
+class ProductTransactionListView(LoginRequiredMixin, ListView):
+    model = Transaction
+    template_name = 'transaction_list.html'
+    
+
     
 
         

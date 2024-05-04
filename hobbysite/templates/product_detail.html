@@ -12,7 +12,7 @@
     <p>Product Type: {{ product.product_type }}</p>
     <p>Description: {{ product.description }}</p>
     <p>Price: {{ product.price }}</p>
-    {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated and product.owner != request.user.profile %}
         <a href="{% url 'merchstore:transactions' %}">Purchase</a>
     {% endif %}
 {% endblock content %}

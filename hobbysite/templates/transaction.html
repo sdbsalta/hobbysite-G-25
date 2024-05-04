@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+     Merch Store: Transactions
+{% endblock title %}
+
+{% block content %}
+    <h1>Purchase this Product</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock content %}
