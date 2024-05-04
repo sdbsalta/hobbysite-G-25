@@ -3,17 +3,15 @@
 from django import forms
 
 from .models import Product
+from user_management.models import Profile
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['owner']  
+        exclude = ['owner'] 
         widgets = {
             'product_type': forms.Select(),
             'status': forms.Select(),
         }
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if 'owner' in self.fields:
-            self.fields['owner'].disabled = True
+    

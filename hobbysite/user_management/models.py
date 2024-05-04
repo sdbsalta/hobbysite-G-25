@@ -10,3 +10,5 @@ class Profile(models.Model):
     )
     display_name = models.CharField(max_length=63)
     email_address = models.EmailField()
+    
+    

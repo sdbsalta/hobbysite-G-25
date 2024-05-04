@@ -1,9 +1,11 @@
 # merchstore/models.py
 
 from django.db import models
+from django.shortcuts import render
 from django.urls import reverse
 
 from user_management.models import Profile
+from django.contrib.auth.models import User
 
 class ProductType(models.Model):
     name = models.CharField(max_length=255)
@@ -18,8 +20,8 @@ class ProductType(models.Model):
 class Product(models.Model):
     STATUS_CHOICES = [
         ('available', 'Available'),
-        ('out_of_stock', 'Out of Stock'),
-        ('discontinued', 'Discontinued'),
+        ('on sale', 'On Sale'),
+        ('out of stock', 'Out of Stock'),
     ]
 
     name = models.CharField(max_length=255)
@@ -28,7 +30,7 @@ class Product(models.Model):
         ProductType, 
         on_delete=models.SET_NULL, 
         null=True, 
-        blank=True
+        blank=True,
         )
     owner = models.ForeignKey(
         Profile, 
