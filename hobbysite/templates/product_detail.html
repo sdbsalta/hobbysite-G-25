@@ -24,5 +24,7 @@
             <button type="submit" disabled>Submit</button>
             {% endif %}
         </form>
+    {% else %}
+        <a href="{% url 'merchstore:product-update' pk=product.pk %}">Edit Product</a>
     {% endif %}
 {% endblock content %}

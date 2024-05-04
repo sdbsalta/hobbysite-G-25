@@ -55,7 +55,7 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_detail.html'
+    template_name = 'product_update.html'
 
 class ProductCartView(LoginRequiredMixin, ListView):
     model = Transaction
