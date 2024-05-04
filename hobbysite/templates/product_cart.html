@@ -3,20 +3,6 @@
 {% block title %}
      Merch Store: Cart
 {% endblock title %}
+
 {% block content %}
-    <h1>
-        <a href="/merchstore/items">Merch Store</a>
-    </h1>
-    <h2>Cart View</h2>
-        
-    {% for owner, transactions in categorized_transactions.items %}
-    <h2>{{ owner }}</h2>
-    <ul>
-        {% for transaction in transactions %}
-        <li>{{ transaction.product.name }} - {{ transaction.product.price }}</li>
-        {% endfor %}
-    </ul>
-    {% empty %}
-    <p>No transactions found.</p>
-    {% endfor %}
 {% endblock content %}
