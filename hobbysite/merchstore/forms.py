@@ -2,8 +2,7 @@
 
 from django import forms
 
-from .models import Product
-from user_management.models import Profile
+from .models import Product, Transaction
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -13,5 +12,9 @@ class ProductForm(forms.ModelForm):
             'product_type': forms.Select(),
             'status': forms.Select(),
         }
-    
+
+class TransactionForm(forms.modelForm):
+    class Meta:
+        model = Transaction
+        exclude = ['created_on']
     

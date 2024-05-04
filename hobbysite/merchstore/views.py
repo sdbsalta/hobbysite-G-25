@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Product, ProductType, Transaction
-from .forms import ProductForm
+from .forms import ProductForm, TransactionForm
 
 class ProductTypeListView(LoginRequiredMixin, ListView):
     model = Product
@@ -20,9 +20,13 @@ class ProductTypeListView(LoginRequiredMixin, ListView):
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['transaction_form'] = TransactionForm()
+        return context
 
-#TODO All fields should be available with the Owner field set to the logged-in user (not editable).
-
+    
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
