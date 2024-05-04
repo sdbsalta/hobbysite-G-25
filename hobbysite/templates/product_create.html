@@ -6,6 +6,7 @@
 {% block content %}
     <h1>Add a Product</h1>
     <form method="POST">
+        <p>Owner: {{ request.user.profile.user }}</p>
         {% csrf_token %}
         {{ form.as_div }}
         <button type="submit">Submit</button>

@@ -1,13 +1,14 @@
 # merchstore/forms.py
 
 from django import forms
+from django.contrib import admin
 
 from .models import Product, Transaction
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'product_type', 'description','price','stock', 'status']
+        exclude = ['owner',]
         widgets = {
             'product_type': forms.Select(),
             'status': forms.Select(),
