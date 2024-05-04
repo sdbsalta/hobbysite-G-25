@@ -5,6 +5,23 @@
 {% endblock title %}
 
 {% block content %}
+     <h1>Transactions</h1>
+     {% if request.user.is_authenticated %}
+          <ul>
+               {% for transaction in transactions %}
+                    {% if transaction.buyer != request.user.profile %}
+                         <li>{{ transaction.product.name }}</li>
+                    {% endif %}
+               {% endfor %}
+          </ul>
+     {% endif %}
 
-
+     <h1>Other Transactions</h1>
+     <ul>
+          {% for transaction in transactions %}
+               {% if transaction.buyer == request.user.profile %}
+                    <li>{{ transaction.product.name }}</li>
+               {% endif %}
+          {% endfor %}
+     </ul>
 {% endblock content %}

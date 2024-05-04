@@ -5,6 +5,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from user_management.models import Profile
+
 from .models import Product, ProductType, Transaction
 from .forms import ProductForm, TransactionForm
 
@@ -17,15 +19,16 @@ class ProductTypeListView(ListView):
         context['product_type'] = ProductType.objects.all()
         return context
 
-class ProductDetailView(DetailView, CreateView):
+class ProductDetailView(DetailView):
     model = Product
-    form_class = TransactionForm
     template_name = 'product_detail.html'
-    
-    def form_valid(self, form):
-        form.instance.buyer = self.request.user.profile
-        return super().form_valid(form)
 
+    #TODO Do I need this?
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["form"] = TransactionForm()
+        return ctx
+    
     def post(self, request, *args, **kwargs):
         form = TransactionForm(request.POST)
         product = self.get_object()
@@ -35,10 +38,12 @@ class ProductDetailView(DetailView, CreateView):
                 transaction = form.save(commit=False)
                 transaction.product = product
                 transaction.buyer = request.user.profile
+                transaction.status = "On Cart"
                 transaction.save()
                 
                 product.stock -= transaction.amount
                 product.save()
+                return redirect('merchstore:cart')
             else:
                 return redirect('login')
         return self.render_to_response(self.get_context_data(form=form))
@@ -71,17 +76,22 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 class ProductCartView(LoginRequiredMixin, ListView):
     model = Transaction
     template_name = 'cart.html'
-    context_object_name = 'transactions'
     
-    def get_transactions(self):
-        transactions = Transaction.objects.filter(buyer=self.request.user.profile)
-        
-        print(transactions)
-        return Transaction.objects.filter(buyer=self.request.user.profile)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['transactions'] = Transaction.objects.all()
+        context['product'] = Product.objects.all()
+        return context
 
 class ProductTransactionListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'transaction_list.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['transactions'] = Transaction.objects.all()
+        context['product'] = Product.objects.all()
+        return context
     
 
     
