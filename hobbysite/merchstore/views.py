@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Product, ProductType, Transaction
 from .forms import ProductForm, TransactionForm
 
-class ProductTypeListView(LoginRequiredMixin, ListView):
+class ProductTypeListView(ListView):
     model = Product
     template_name = 'product_list.html'
     

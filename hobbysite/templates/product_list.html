@@ -9,10 +9,6 @@
 
 {% block content %}
     <div class="container">
-        <h1>
-            <a href="/merchstore/items">Merch Store</a>
-        </h1>
-
         {% if request.user.is_authenticated %}
             <h3>Your Products</h3>
             {% for type in product_type %}
@@ -30,24 +26,21 @@
                 </ul>
             {% endfor %}
             <a href="{% url 'merchstore:product-add' %}">Create a New Product</a>
-            
-            <h3>Other Products</h3>
-            {% for type in product_type %}
-                <h4>{{ type }}</h4>
-                <ul>
-                    {% for product in object_list %}
-                        {% if product.product_type == type and product.owner != request.user.profile %}
-                            <li>
-                                <a href="{{ product.get_absolute_url }}">
-                                    {{ product }}
-                                </a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            {% endfor %}
         {% endif %}
 
+        <h3>Other Products</h3>
+        {% for type in product_type %}
+            <h4>{{ type }}</h4>
+            <ul>
+                {% for product in object_list %}
+                    {% if product.product_type == type and product.owner != request.user.profile %}
+                        <li>
+                            <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+                            </li>
+                    {% endif %}
+                 {% endfor %}
+             </ul>
+        {% endfor %}
 
     </div>
 {% endblock content %}
