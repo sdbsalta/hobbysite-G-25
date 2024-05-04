@@ -1,6 +1,6 @@
 # merchstore/views.py
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,7 +25,6 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['transaction_form'] = TransactionForm()
         return context
-
     
 class ProductCreateView(CreateView):
     model = Product

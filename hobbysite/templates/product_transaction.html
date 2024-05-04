@@ -8,21 +8,5 @@
         <a href="/merchstore/items">Merch Store</a>
     </h1>
     
-    <h2>Product Transactions</h2>
-    {% if transactions_by_buyer %}
-        {% for buyer, transactions in transactions_by_buyer.items %}
-            <h2>{{ buyer.username }}</h2>
-            <ul>
-                {% for transaction in transactions %}
-                    <li>
-                        Product: {{ transaction.product.name }}<br>
-                        Amount: {{ transaction.amount }}<br>
-                        Status: {{ transaction.status }}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    {% else %}
-        <p>No transactions found.</p>
-    {% endif %}
+
 {% endblock content %}
