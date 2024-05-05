@@ -9,6 +9,12 @@
         .me-2 {
             margin-left: 5px;
         }
+
+        .btn.btn-primary {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
     </style>
 {% endblock styles %}
 
@@ -30,18 +36,21 @@
                 {% endfor %}
             </ul>
         {% endfor %}
-        <a href="{% url 'merchstore:product-add' %}">Create a New Product</a>
+        <a class="btn btn-primary" href="{% url 'merchstore:product-add' %}" role="button">Create a New Product</a>
     {% endif %}
 
     <h3>Products</h3>
     {% for type in product_type %}
         <h4>{{ type }}</h4>
-        <ul>
+        <ul class="list-group">
             {% for product in object_list %}
                 {% if product.product_type == type and product.owner != request.user.profile %}
-                    <li>
-                        <a href="{{ product.get_absolute_url }}">{{ product }}</a>
-                        </li>
+                    <li class="list-group-item">
+                        <a href="{{ product.get_absolute_url }}" class="me-2">
+                            {{ product }}
+                        </a>
+                        <span class="badge bg-primary rounded-pill"> {{ product.status}} </span>
+                    </li>
                 {% endif %}
             {% endfor %}
         </ul>
