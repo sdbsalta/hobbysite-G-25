@@ -6,21 +6,25 @@
 
 {% block styles %}
     <style>
+        .me-2 {
+            margin-left: 5px;
+        }
     </style>
 {% endblock styles %}
 
 {% block content %}
     {% if request.user.is_authenticated %}
-        <h3>Your Products</h3>
+        <h3>My Products</h3>
         {% for type in product_type %}
             <h4>{{ type }}</h4>
-            <ul>
+            <ul class="list-group">
                 {% for product in object_list %}
                     {% if product.product_type == type and product.owner == request.user.profile %}
-                        <li>
-                            <a href="{{ product.get_absolute_url }}">
+                        <li class="list-group-item">
+                            <a href="{{ product.get_absolute_url }}" class="me-2">
                                 {{ product }}
                             </a>
+                            <span class="badge bg-primary rounded-pill"> {{ product.status}} </span>
                         </li>
                     {% endif %}
                 {% endfor %}
@@ -29,7 +33,7 @@
         <a href="{% url 'merchstore:product-add' %}">Create a New Product</a>
     {% endif %}
 
-    <h3>Other Products</h3>
+    <h3>Products</h3>
     {% for type in product_type %}
         <h4>{{ type }}</h4>
         <ul>
