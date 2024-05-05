@@ -12,7 +12,7 @@ from .forms import ProductForm, TransactionForm
 
 class ProductTypeListView(ListView):
     model = Product
-    template_name = 'product_list.html'
+    template_name = 'merchstore/product_list.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -21,7 +21,7 @@ class ProductTypeListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'product_detail.html'
+    template_name = 'merchstore/product_detail.html'
 
     #TODO Do I need this?
     def get_context_data(self, **kwargs):
@@ -51,7 +51,7 @@ class ProductDetailView(DetailView):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_create.html'
+    template_name = 'merchstore/product_create.html'
     
     def get_success_url(self):
         return reverse_lazy("merchstore:list")
@@ -63,7 +63,7 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_update.html'
+    template_name = 'merchstore/product_update.html'
     
     def form_valid(self, form):
         product = self.get_object()
@@ -75,7 +75,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
 class ProductCartView(LoginRequiredMixin, ListView):
     model = Transaction
-    template_name = 'cart.html'
+    template_name = 'merchstore/cart.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -85,7 +85,7 @@ class ProductCartView(LoginRequiredMixin, ListView):
 
 class ProductTransactionListView(LoginRequiredMixin, ListView):
     model = Product
-    template_name = 'transaction_list.html'
+    template_name = 'merchstore/transaction_list.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
