@@ -5,45 +5,42 @@
 {% endblock title %}
 
 {% block styles %}
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #BDB2FF;
-        }
-
-        a {
-            text-decoration: none;
-            color:rgb(84, 70, 166);
-            transition: color 0.3s;
-        }
-
-        a:hover {
-            color: #ffffff; 
-        }
-
-        a:active {
-            text-decoration: underline; 
-        }
-
-        ul li::marker {
-            color:rgb(51, 39, 118);
-        }
-    </style>
 {% endblock styles %}
 
 {% block content %}
     <div class="container">
-        <h1>
-            <a href="/merchstore/items">Merch Store</a>
-        </h1>
-        <ul>
-            {% for product in object_list %}
-                <li>
-                    <a href="{{ product.get_absolute_url }}">
-                        {{ product }}
-                    </a>
-                </li>
+        {% if request.user.is_authenticated %}
+            <h3>Your Products</h3>
+            {% for type in product_type %}
+                <h4>{{ type }}</h4>
+                <ul>
+                    {% for product in object_list %}
+                        {% if product.product_type == type and product.owner == request.user.profile %}
+                            <li>
+                                <a href="{{ product.get_absolute_url }}">
+                                    {{ product }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
             {% endfor %}
-        </ul>
+            <a href="{% url 'merchstore:product-add' %}">Create a New Product</a>
+        {% endif %}
+
+        <h3>Other Products</h3>
+        {% for type in product_type %}
+            <h4>{{ type }}</h4>
+            <ul>
+                {% for product in object_list %}
+                    {% if product.product_type == type and product.owner != request.user.profile %}
+                        <li>
+                            <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+                            </li>
+                    {% endif %}
+                 {% endfor %}
+             </ul>
+        {% endfor %}
+
     </div>
 {% endblock content %}
