@@ -7,7 +7,7 @@
 {% block styles %}
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Tahoma;
             margin: 0;
             padding: 0;
             background-color: #e9e0d2; 
@@ -24,7 +24,7 @@
             border: 40px solid #bcc199; 
         }
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.0rem;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -55,33 +55,30 @@
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto 20px; /* Adjust as needed */
+            margin: 0 auto 20px;
+        }
+        form textarea {
+            height: 50px;
         }
     </style>
 {% endblock styles %}
+
 
 {% block content %}
 <div class="container">
     <h1><a href="{% url 'blog:article_list' %}">Blog</a></h1>
     <h2>{{ article.title }}</h2>
     <img src="{{ article.header_image.url }}" alt="Header Image">
+    <p><strong>Entry:</strong>{{ article.entry }}</p>
     <p><strong>Author:</strong> {{ article.author.username }}</p> 
     <p><strong>Category:</strong> {{ article.category.name }}</p>
     <p><strong>Created On:</strong> {{ article.created_on }}</p>
     <p><strong>Updated On:</strong> {{ article.updated_on }}</p>
-    <p><strong>Entry: </strong>{{ article.entry }}</p>
 
 
     {% if request.user == article.author %}
     <a href="{% url 'blog:article_update' article.pk %}" class="btn btn-primary">Edit</a>
     {% endif %}
-
-    <h2>More Articles By {{ article.author.username }}:</h2>
-    <ul>
-        {% for author_article in author_articles %}
-            <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
-        {% endfor %}
-    </ul>
 
     <h2>Post a Comment:</h2>
     <form action="{% url 'blog:comment_create_view' article.pk %}" method="post">
@@ -96,5 +93,13 @@
     {% empty %}
         <p>No comments yet.</p>
     {% endfor %}
+
+    <h2>More Articles By {{ article.author.username }}:</h2>
+    <ul>
+        {% for author_article in author_articles %}
+            <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
+        {% endfor %}
+    </ul>
+
 </div>
 {% endblock content %}

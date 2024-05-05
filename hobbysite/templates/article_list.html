@@ -1,4 +1,4 @@
-# hobbysite/templates/article_list.html
+<!--hobbysite/templates/article_list.html-->
 
 {% extends 'base.html' %}
 
@@ -9,24 +9,19 @@
 {% block styles %}
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Tahoma;
             margin: 0;
-            padding: 0;
             background-color: #e9e0d2; 
             color: #2e2e2e; 
-            line-height: 1.6;
         }
         .container {
-            max-width: 800px;
-            margin: 20px auto;
             padding: 20px;
             background-color: #e9e6d6; 
-            box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             border: 40px solid #bcc199; 
         }
         h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -37,33 +32,43 @@
         ul {
             list-style-type: none;
             padding: 0;
+            display: flex;
+            flex-wrap: wrap;
         }
         li {
-            margin-bottom: 10px;
+            width: calc(33.33%);
+            margin-bottom: 20px;
+            text-align: center;
         }
         a {
             color: #767b5f;
             text-decoration: none;
             transition: color 0.3s, transform 0.3s; 
-            display: inline-block;
-            padding: 5px 10px;
         }
         a:hover {
             text-decoration: underline;
             color: #4a4e3f; 
-            transform: scale(1.1); 
+        }
+        img {
+            width: 90%; 
+            height: 150px; 
+            object-fit: cover; 
+            border-radius: 8px; 
+        }
+        h2 {
+            font-size: 1.rem;
         }
     </style>
 {% endblock styles %}
 
 {% block content %}
-    <h1>
-        <a href="{% url 'blog:article_create' %}">Create Article</a>
-    </h1>
+<div class="container">
+    <h1><a href="{% url 'blog:article_create' %}">Create Article</a></h1>
     <h1>My Articles:</h1>
     <ul>
         {% for article in user_articles %}
             <li>
+                <img src="{{ article.header_image.url }}" alt="Header Image">
                 <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
             </li>
         {% empty %}
@@ -77,6 +82,7 @@
         <ul>
             {% for article in articles %}
                 <li>
+                    <img src="{{ article.header_image.url }}" alt="Header Image">
                     <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
                 </li>
             {% endfor %}
@@ -84,4 +90,5 @@
     {% empty %}
         <p>No articles available.</p>
     {% endfor %}
+</div>
 {% endblock content %}
