@@ -4,63 +4,42 @@
     <h1>Blog Detail</h1>
 {% endblock title %}
 
-{% block styles %}
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #e9e0d2; 
-            color: #2e2e2e; 
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #e9e6d6; 
-            box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            border: 40px solid #bcc199; 
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        a {
-            color: #767b5f;
-            text-decoration: none;
-            transition: color 0.3s, transform 0.3s; 
-            display: inline-block;
-            padding: 5px 10px;
-        }
-        a:hover {
-            text-decoration: underline;
-            color: #4a4e3f; 
-            transform: scale(1.1); 
-        }
-    </style>
-{% endblock styles %}
-
 {% block content %}
-    <h1>
-        <a href="/blog/articles">Blog</a>
-    </h1>
-        <h2>{{ article.title }}</h2>
-        <p><strong>Category:</strong> {{ article.category.name }}</p>
-        <p><strong>Created On:</strong> {{ article.created_on }}</p>
-        <p><strong>Updated On:</strong> {{ article.updated_on }}</p>
-        <p>{{ article.entry|linebreaks }}</p>
+<div class="container">
+    <h1><a href="{% url 'blog:article_list' %}">Blog</a></h1>
+    <h2>{{ article.title }}</h2>
+    <img src="{{ article.header_image.url }}" alt="Header Image">
+    <p><strong>Entry:</strong>{{ article.entry }}</p>
+    <p><strong>Author:</strong> {{ article.author.username }}</p> 
+    <p><strong>Category:</strong> {{ article.category.name }}</p>
+    <p><strong>Created On:</strong> {{ article.created_on }}</p>
+    <p><strong>Updated On:</strong> {{ article.updated_on }}</p>
+
+
+    {% if request.user == article.author %}
+    <a href="{% url 'blog:article_update' article.pk %}" class="btn btn-primary">Edit</a>
+    {% endif %}
+
+    <h2>Post a Comment:</h2>
+    <form action="{% url 'blog:comment_create_view' article.pk %}" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
+
+    <h2>Comments:</h2>
+    {% for comment in comments %}
+        <p>{{ comment.entry }}</p>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+
+    <h2>More Articles By {{ article.author.username }}:</h2>
+    <ul>
+        {% for author_article in author_articles %}
+            <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+</div>
 {% endblock content %}
