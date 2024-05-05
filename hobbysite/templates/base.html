@@ -13,6 +13,16 @@
     <body>
         <div id="content">
             {% block content %}
+                {% if request.user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'login' %}" method="get">
+                        <button type="submit">Login</button>
+                    </form>
+                {% endif %}
             {% endblock content %}
         </div>
     </body>
