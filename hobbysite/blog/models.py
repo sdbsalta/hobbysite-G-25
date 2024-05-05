@@ -1,6 +1,8 @@
-from django.db import models
-from django.urls import reverse
+# hobbysite/blog/models.py
 
+from django.db import models
+from django.contrib.auth.models import User
+from django.urls import reverse
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -11,11 +13,12 @@ class ArticleCategory(models.Model):
 
     def __str__(self):
         return self.name
-
 class Article(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(ArticleCategory, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     entry = models.TextField()
+    header_image = models.ImageField(upload_to='article_images', default='default.jpg') 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -28,3 +31,16 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('blog:article_detail', args=[str(self.pk)])
 
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_on']
+
+    def __str__(self):
+        return f"Comment by {self.author.username} on {self.article.title}"
