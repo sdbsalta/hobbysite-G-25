@@ -1,4 +1,5 @@
 # hobbysite/blog/models.py
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -12,10 +13,10 @@ class ArticleCategory(models.Model):
 
     def __str__(self):
         return self.name
-
 class Article(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(ArticleCategory, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     entry = models.TextField()
     header_image = models.ImageField(upload_to='article_images', default='default.jpg') 
     created_on = models.DateTimeField(auto_now_add=True)

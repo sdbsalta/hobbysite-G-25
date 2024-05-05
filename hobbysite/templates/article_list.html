@@ -1,3 +1,5 @@
+# hobbysite/templates/article_list.html
+
 {% extends 'base.html' %}
 
 {% block title %}
@@ -56,13 +58,30 @@
 
 {% block content %}
     <h1>
-        <a href="/blog/articles">Blog</a>
-    <h1>
+        <a href="{% url 'blog:article_create' %}">Create Article</a>
+    </h1>
+    <h1>My Articles:</h1>
     <ul>
-        {% for article in articles %}
+        {% for article in user_articles %}
             <li>
                 <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
             </li>
+        {% empty %}
+            <li>No articles yet.</li>
         {% endfor %}
     </ul>
-{% endblock %}
+
+    <h1>All Articles:</h1>
+    {% for category, articles in articles_by_category.items %}
+        <h2>{{ category.name }}</h2>
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% empty %}
+        <p>No articles available.</p>
+    {% endfor %}
+{% endblock content %}

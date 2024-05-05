@@ -64,19 +64,34 @@
 <div class="container">
     <h1><a href="{% url 'blog:article_list' %}">Blog</a></h1>
     <h2>{{ article.title }}</h2>
+    <img src="{{ article.header_image.url }}" alt="Header Image">
+    <p><strong>Author:</strong> {{ article.author.username }}</p> 
     <p><strong>Category:</strong> {{ article.category.name }}</p>
     <p><strong>Created On:</strong> {{ article.created_on }}</p>
     <p><strong>Updated On:</strong> {{ article.updated_on }}</p>
-    {% if article.header_image %}
-    <p>Image URL: {{ article.header_image.url }}</p>
-    <img src="{{ article.header_image.url }}" alt="Header Image">
-{% else %}
-    <p>No header image available.</p>
-{% endif %}
-    <p>{{ article.entry|linebreaks }}</p>
+    <p><strong>Entry: </strong>{{ article.entry }}</p>
 
-    <h2>Comments</h2>
-    {% for comment in article.comment_set.all %}
+
+    {% if request.user == article.author %}
+    <a href="{% url 'blog:article_update' article.pk %}" class="btn btn-primary">Edit</a>
+    {% endif %}
+
+    <h2>More Articles By {{ article.author.username }}:</h2>
+    <ul>
+        {% for author_article in author_articles %}
+            <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Post a Comment:</h2>
+    <form action="{% url 'blog:comment_create_view' article.pk %}" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
+
+    <h2>Comments:</h2>
+    {% for comment in comments %}
         <p>{{ comment.entry }}</p>
     {% empty %}
         <p>No comments yet.</p>
