@@ -4,27 +4,36 @@
 {% endblock title %}
 
 {% block styles %}
+    <style>
+        body{
+            margin-left: 50px; 
+            margin-right: 50px; 
+        }
+
+        h1{
+            margin-top: 75px;
+        }
+        .list-group {
+
+        }
+    </style>
 {% endblock styles %}
 
 {% block content %}
     <h1>Welcome to Our Hobby Site!</h1>
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            href="{% url 'merchstore:list' %}"
-            >Merch Store</a
-          >
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <a href="{% url 'merchstore:list' %}">Merch Store</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'forum:post_list' %}">Forum</a>
+        <li class="list-group-item">
+            <a href="{% url 'forum:post_list' %}">Forum</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/blog/articles">Blog</a>
+        <li class="list-group-item">
+            <a href="/blog/articles">Blog</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/commissions/list">Commissions</a>
+        <li class="list-group-item">
+            <a href="/commissions/list">Commissions</a>
         </li>
-    </ul>
+      </ul>
 {% endblock %}
