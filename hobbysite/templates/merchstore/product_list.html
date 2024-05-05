@@ -30,7 +30,8 @@
                             <a href="{{ product.get_absolute_url }}" class="me-2">
                                 {{ product }}
                             </a>
-                            <span class="badge bg-primary rounded-pill"> {{ product.status}} </span>
+                            — P{{ product.price }}
+                            <span class="badge bg-primary rounded-pill"> {{ product.status }} </span>
                         </li>
                     {% endif %}
                 {% endfor %}
@@ -49,6 +50,7 @@
                         <a href="{{ product.get_absolute_url }}" class="me-2">
                             {{ product }}
                         </a>
+                        — P{{ product.price }}
                         <span class="badge bg-primary rounded-pill"> {{ product.status}} </span>
                     </li>
                 {% endif %}
