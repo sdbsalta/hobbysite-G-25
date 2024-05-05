@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+    Home
+{% endblock title %}
+
+{% block styles %}
+{% endblock styles %}
+
+{% block content %}
+    <h1>Welcome to Our Hobby Site!</h1>
+    <ul>
+        <li>
+            <a href="{% url 'merchstore:list' %}">Merch Store</a>
+        </li>
+        <li>
+            <a href="{% url 'forum:post_list' %}">Forum</a>
+        </li>
+        <li>
+            <a href="/blog/articles">Blog</a>
+        </li>
+        <li>
+            <a href="/commissions/list">Commissions</a>
+        </li>
+    </ul>
+{% endblock %}

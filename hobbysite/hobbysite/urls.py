@@ -17,10 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from .views import home
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('merchstore/', include('merchstore.urls', namespace = 'merchstore')),
     path('blog/', include('blog.urls')),
     path('forum/', include('forum.urls', namespace='forum')),
-    path('commissions/', include('commissions.urls', namespace='commissions'))
+    path('commissions/', include('commissions.urls', namespace='commissions')),
+    path('profile/', include('django.contrib.auth.urls')),
+    path('home/', home),
 ]
