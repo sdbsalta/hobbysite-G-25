@@ -17,6 +17,10 @@
             .nav {
                 margin-top: 50px;
             }
+
+            .nav-item .btn {
+                text-decoration: none;
+            }
         </style>
         
         {% block styles %} 
@@ -40,14 +44,14 @@
               <a class="nav-link" href="/commissions/list">Commissions</a>
             </li>
             {% if request.user.is_authenticated %}
-                <li class="nav-item">
+                <li class="nav-item ms-auto">
                     <form action="{% url 'logout' %}" method="post" class="nav-link">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-link">Logout</button>
                     </form>
                 </li>
             {% else %}
-                <li class="nav-item">
+                <li class="nav-item ms-auto">
                     <form action="{% url 'login' %}" method="get" class="nav-link">
                         <button type="submit" class="btn btn-link">Login</button>
                     </form>
