@@ -27,37 +27,37 @@
         {% endblock styles %}
     </head>
     <body>
-        <ul class="nav nav-underline">
-            <li class="nav-item">
-                <a class="nav-link" href="/home">Home</a>
-              </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'merchstore:list' %}">Merch Store</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'forum:post_list' %}">Forum</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/blog/articles">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/commissions/list">Commissions</a>
-            </li>
-            {% if request.user.is_authenticated %}
-                <li class="nav-item ms-auto">
-                    <form action="{% url 'logout' %}" method="post" class="nav-link">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-link">Logout</button>
-                    </form>
+        <div class="navbar-container">
+            <ul class="nav nav-underline">
+                <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:list' %}">Merch Store</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'forum:post_list' %}">Forum</a></li>
+                <li class="nav-item"><a class="nav-link" href="/blog/articles">Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="/commissions/list">Commissions</a></li>
+                
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/merchstore/cart' %}active{% endif %}" href="{% url 'merchstore:cart' %}">Cart</a>
                 </li>
-            {% else %}
-                <li class="nav-item ms-auto">
-                    <form action="{% url 'login' %}" method="get" class="nav-link">
-                        <button type="submit" class="btn btn-link">Login</button>
-                    </form>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/merchstore/transactions' %}active{% endif %}" href="{% url 'merchstore:transactions' %}">Transactions</a>
                 </li>
-            {% endif %}
-        </ul>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item ms-auto">
+                        <form action="{% url 'logout' %}" method="post" class="nav-link">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-auto">
+                        <form action="{% url 'login' %}" method="get" class="nav-link">
+                            <button type="submit" class="btn btn-link">Login</button>
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+
         {% block content %}
         {% endblock content %}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
