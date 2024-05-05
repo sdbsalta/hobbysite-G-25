@@ -30,17 +30,20 @@
         <div class="navbar-container">
             <ul class="nav nav-underline">
                 <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:list' %}">Merch Store</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{% url 'merchstore:list' %}" role="button" aria-expanded="false">Merch Store</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'merchstore:list' %}">Check the Store</a></li>
+                        <li><a class="dropdown-item" href="{% url 'merchstore:transactions' %}">Transactions</a></li>
+                        <li><a class="dropdown-item" href="{% url 'merchstore:cart' %}">Cart</a></li>
+                    </ul>
+                  </li>
+
                 <li class="nav-item"><a class="nav-link" href="{% url 'forum:post_list' %}">Forum</a></li>
                 <li class="nav-item"><a class="nav-link" href="/blog/articles">Blog</a></li>
                 <li class="nav-item"><a class="nav-link" href="/commissions/list">Commissions</a></li>
                 
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/merchstore/cart' %}active{% endif %}" href="{% url 'merchstore:cart' %}">Cart</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.path == '/merchstore/transactions' %}active{% endif %}" href="{% url 'merchstore:transactions' %}">Transactions</a>
-                </li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item ms-auto">
                         <form action="{% url 'logout' %}" method="post" class="nav-link">
