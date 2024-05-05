@@ -92,8 +92,4 @@ class ProductTransactionListView(LoginRequiredMixin, ListView):
         context['transactions'] = Transaction.objects.all()
         context['product'] = Product.objects.all()
         return context
-    
-
-    
-
         
