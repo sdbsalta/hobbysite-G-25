@@ -10,39 +10,36 @@
 {% endblock styles %}
 
 {% block content %}
-    <div class="container">
-        {% if request.user.is_authenticated %}
-            <h3>Your Products</h3>
-            {% for type in product_type %}
-                <h4>{{ type }}</h4>
-                <ul>
-                    {% for product in object_list %}
-                        {% if product.product_type == type and product.owner == request.user.profile %}
-                            <li>
-                                <a href="{{ product.get_absolute_url }}">
-                                    {{ product }}
-                                </a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            {% endfor %}
-            <a href="{% url 'merchstore:product-add' %}">Create a New Product</a>
-        {% endif %}
-
-        <h3>Other Products</h3>
+    {% if request.user.is_authenticated %}
+        <h3>Your Products</h3>
         {% for type in product_type %}
             <h4>{{ type }}</h4>
             <ul>
                 {% for product in object_list %}
-                    {% if product.product_type == type and product.owner != request.user.profile %}
+                    {% if product.product_type == type and product.owner == request.user.profile %}
                         <li>
-                            <a href="{{ product.get_absolute_url }}">{{ product }}</a>
-                            </li>
+                            <a href="{{ product.get_absolute_url }}">
+                                {{ product }}
+                            </a>
+                        </li>
                     {% endif %}
-                 {% endfor %}
-             </ul>
+                {% endfor %}
+            </ul>
         {% endfor %}
+        <a href="{% url 'merchstore:product-add' %}">Create a New Product</a>
+    {% endif %}
 
-    </div>
+    <h3>Other Products</h3>
+    {% for type in product_type %}
+        <h4>{{ type }}</h4>
+        <ul>
+            {% for product in object_list %}
+                {% if product.product_type == type and product.owner != request.user.profile %}
+                    <li>
+                        <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+                        </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endfor %}
 {% endblock content %}
