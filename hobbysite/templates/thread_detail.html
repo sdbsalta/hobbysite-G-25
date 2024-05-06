@@ -18,10 +18,10 @@
     <p><strong>Updated On:</strong> {{ thread.updated_on }}</p>
     
     {% if request.user.profile == thread.author %}
-        <a href="{% url 'forum:thread_update' article.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'forum:thread_update' thread.pk %}" class="btn btn-primary">Edit</a>
     {% endif %}
 
-    <h2>Other Threads by {{ article.author.username }}:</h2>
+    <h2>Other Threads by {{ thread.author.username }}:</h2>
     <ul>
        {% for author_thread in author_threads %}
             <li><a href="{{ author_thread.get_absolute_url }}">{{ author_thread.title }}</a></li>
@@ -29,7 +29,7 @@
     </ul>
 
     <h2>Post a Comment:</h2>
-    <form action="{% url 'forum:comment_create_view' article.pk %}" method="post">
+    <form action="{% url 'forum:comment_create_view' thread.pk %}" method="post">
         {% csrf_token %}
         {{ comment_form.as_p }}
         <button type="submit">Post Comment</button>
