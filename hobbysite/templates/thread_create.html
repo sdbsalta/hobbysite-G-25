@@ -14,7 +14,7 @@
     </form>
     
     <h1>Post Comment</h1>
-    <form action="{% if thread %}{% url 'forum:comment_create_view' article.pk %}{% endif %}" method="post">
+    <form action="{% if thread %}{% url 'forum:comment_create_view' thread.pk %}{% endif %}" method="post">
         {% csrf_token %}
         {{ comment_form.as_p }}
         <button type="submit">Post Comment</button>
