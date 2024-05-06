@@ -9,10 +9,10 @@
         <a href="/forum/threads">FORUM</a>
     </h1>
     <div class="container">
-        <h1><a href="{% url 'forum:thread_create' %}">Create Article</a></h1>
+        <h1><a href="{% url 'forum:thread_create' %}">Create Thread</a></h1>
         <h1>Your Threads:</h1>
         <ul>
-        {% for thread in user_articles %}
+        {% for thread in user_threads %}
             <li>
                 <div>
                     <img src="{{ thread.image.url }}" alt="Image">
