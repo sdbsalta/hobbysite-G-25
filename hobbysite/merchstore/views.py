@@ -59,6 +59,15 @@ class ProductCreateView(CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user.profile
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+        form.fields['owner'].initial = Profile.objects.get(user=self.request.user)
+        form.fields['owner'].disabled = True
+        
+        context['form'] = form
+        return context
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
