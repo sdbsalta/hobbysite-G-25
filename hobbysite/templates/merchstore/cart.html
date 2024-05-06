@@ -37,30 +37,4 @@
                </tbody>
           </table>
      {% endif %}
-
-     <h2>Other Cart</h2>
-     <table class="table">
-          <thead>
-               <tr>
-                    <th scope="col">Transaction</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Amount</th>
-               </tr>
-          </thead>
-          <tbody>
-          {% for transaction in transactions %}
-               {% if transaction.buyer != request.user.profile %}
-                    <tr>
-                         <th scope="row"> {{ transaction.product.name }} </th>
-                         <td> {{ transaction.product.product_type }} </td>
-                         <td> {{ transaction.status }}</td>
-                         <td> {{ transaction.product.price }} </td>
-                         <td> {{ transaction.amount }}</td>
-                       </tr>
-               {% endif %}
-          {% endfor %}
-          </tbody>
-     </table>
 {% endblock content %}

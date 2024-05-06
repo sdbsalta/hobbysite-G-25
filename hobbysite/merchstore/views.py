@@ -91,5 +91,6 @@ class ProductTransactionListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['transactions'] = Transaction.objects.all()
         context['product'] = Product.objects.all()
+        context['profile'] = Profile.objects.all()
         return context
         
