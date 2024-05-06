@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+     Forum
+{% endblock title %}
+{% block content %}
+    <h4><a href="/home"> Return to Homepage </a></h4>
+    <h1>
+        <a href="/forum/threads">FORUM</a>
+    </h1>
+    <div class="container">
+        <h1><a href="{% url 'forum:thread_create' %}">Create Article</a></h1>
+        <h1>Your Threads:</h1>
+        <ul>
+        {% for thread in user_articles %}
+            <li>
+                <div>
+                    <img src="{{ thread.image.url }}" alt="Image">
+                </div>
+                <div>
+                    <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+                </div>
+            </li>
+        {% empty %}
+            <li>No threads yet.</li>
+        {% endfor %}
+    </ul>
+
+    <h1>All Threads:</h1>
+    {% for category, threads in thread_by_category.items %}
+        <h2>{{ category.name }}</h2>
+        <ul>
+            {% for thread in threads %}
+                <li>
+                    <div>
+                        <img src="{{ thread.image.url }}" alt="Image">
+                    </div>
+                    <div>
+                        <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% empty %}
+        <p>No threads available.</p>
+    {% endfor %}
+</div>
+
+{% endblock content %}

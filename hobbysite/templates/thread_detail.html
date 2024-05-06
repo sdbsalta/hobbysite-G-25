@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <h1>Forum Details</h1>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1><a href="{% url 'forum:thread_list' %}">FORUM</a></h1>
+        <h4><a href="/forum/threads"> Return to Thread List </a></h4>
+    </h1>
+    <h2>Thread Title: {{ thread.title }}</h2>
+    <p><strong>Author:</strong> {{ thread.author.username }} </p>
+    <p><strong>Category:</strong> {{ thread.category.name}}</p>
+    <p><strong>Entry:</strong> {{thread.entry}}</p>
+    <img src="{{ thread.image.url }}" alt="Image">
+    <p><strong>Created On:</strong> {{ thread.created_on }}</p>
+    <p><strong>Updated On:</strong> {{ thread.updated_on }}</p>
+    
+    {% if request.user.profile == thread.author %}
+        <a href="{% url 'forum:thread_update' article.pk %}" class="btn btn-primary">Edit</a>
+    {% endif %}
+
+    <h2>Other Threads by {{ article.author.username }}:</h2>
+    <ul>
+       {% for author_thread in author_threads %}
+            <li><a href="{{ author_thread.get_absolute_url }}">{{ author_thread.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Post a Comment:</h2>
+    <form action="{% url 'forum:comment_create_view' article.pk %}" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
+
+    <h2>Comments:</h2>
+    {% for comment in comments %}
+        <p>{{ comment.entry }}</p>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+
+</div>
+{% endblock content %}

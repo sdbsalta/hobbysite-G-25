@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Forum: Create a Thread
+{% endblock title %}
+
+{% block content %}
+    <h1>Create a Thread</h1>
+    <h2>{% if thread %}Edit Thread{% else %}Create Thread{% endif %}</h2>
+    <form action="{% if thread %}{% url 'forum:thread_update' thread.pk %}{% else %}{% url 'forum:thread_create' %}{% endif %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    
+    <h1>Post Comment</h1>
+    <form action="{% if thread %}{% url 'forum:comment_create_view' article.pk %}{% endif %}" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
+{% endblock %}
