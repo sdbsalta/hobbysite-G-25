@@ -10,10 +10,4 @@
     <button type="submit">Save</button>
   </form>
 
-  <h1>Post Comment</h1>
-  <form action="{% if article %}{% url 'blog:comment_create_view' article.pk %}{% endif %}" method="post">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <button type="submit">Post Comment</button>
-  </form>
 {% endblock %}
