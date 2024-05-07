@@ -9,37 +9,14 @@ from .forms import CommentForm
 from user_management.models import Profile
 
 
-class ThreadListView(LoginRequiredMixin, ListView):
+class ThreadListView(ListView):
     model = Thread
     template_name = 'forum/thread_list.html'
     context_object_name = 'threads'
-
-    def get_queryset(self):
-        user_threads = Thread.objects.filter(author=self.request.user)
-        other_threads = Thread.objects.exclude(author=self.request.user)
-        categories = ThreadCategory.objects.all()
-
-        threads_by_category = {}
-        for category in categories:
-            threads = other_threads.filter(category=category)
-            threads_by_category[category] = threads
-
-        queryset = list(user_threads) + list(other_threads)
-        return queryset
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_threads = Thread.objects.filter(author=self.request.user)
-        other_threads = Thread.objects.exclude(author=self.request.user)
-        categories = ThreadCategory.objects.all()
-
-        threads_by_category = {}
-        for category in categories:
-            threads = other_threads.filter(category=category)
-            threads_by_category[category] = threads
-
-        context['user_threads'] = user_threads
-        context['threads_by_category'] = threads_by_category
+        context['thread_category'] = ThreadCategory.objects.all()
         return context
 
 

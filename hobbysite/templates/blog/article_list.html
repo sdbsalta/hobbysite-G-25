@@ -7,27 +7,28 @@
 {% endblock title %}
 
 {% block content %}
-<div class="container">
-    <h1><a href="{% url 'blog:article_create' %}">Create Article</a></h1>
-    <h1>My Articles:</h1>
-    <ul>
-        {% for article in user_articles %}
-            <li>
-                <div>
-                    <img src="{{ article.header_image.url }}" alt="Header Image">
-                </div>
-                <div>
-                    <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
-                </div>
-            </li>
-        {% empty %}
-            <li>No articles yet.</li>
-        {% endfor %}
-    </ul>
+    <h3>My Articles:</h3>
+    {% for article in user_articles %}
+        <div class="card" style="width: 18rem;">
+            <img src ="{{ article.header_image.url }}" class="card-img-top" alt="Header Image">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <p>{{ article.title }}</p>
+                    <a href="{% url 'blog:article_detail' article.pk %}">Read Now</a>
+                </h5>
+            </div>
+        </div>
+    {% empty %}
+        No articles yet.
+    {% endfor %}
 
-    <h1>All Articles:</h1>
+    <a class="btn btn-primary" href="{% url 'blog:article_create' %}" role="button">Create Article</a>
+
+    <hr class="solid">
+
+    <h3>All Articles:</h3>
     {% for category, articles in articles_by_category.items %}
-        <h2>{{ category.name }}</h2>
+        <h4>{{ category.name }}</h4>
         <ul>
             {% for article in articles %}
                 <li>
@@ -43,6 +44,4 @@
     {% empty %}
         <p>No articles available.</p>
     {% endfor %}
-</div>
-
 {% endblock content %}
