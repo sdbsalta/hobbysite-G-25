@@ -9,41 +9,30 @@
     <h3>My Threads:</h3>
     <div>
         {% for thread in threads %}
-            <div class="card">
-                <img src="{{ thread.image.url }}" class="card-img-top" alt="Image">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
-                    </h5>
-                </div>
-            </div>
+            <h5 class="card-title">
+                <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+            </h5>
         {% empty %}
             <p>No threads yet.</p>
         {% endfor %}
+    {% endif %}
     </div>
 
     <a class="btn btn-primary" href="{% url 'forum:thread_create' %}" role="button">Create Thread</a>
-    {% endif %}
-
+    
     <hr class="solid">
 
     <h3>All Threads:</h3>
-    
+    <div>
         {% for category, threads in threads_by_category.items %}
             <h4>{{ category.name }}</h4>
-            <div>
                 {% for thread in threads %}
-                    <div class="card">
-                        <img src="{{ thread.image.url }}" class="card-img-top" alt="Image">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
-                            </h5>
-                        </div>
-                {% endfor %}
-            </div>
+                <h5 class="card-title">
+                    <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+                </h5>
+            {% endfor %}        
         {% empty %}
         <p>No threads available.</p>
         {% endfor %}
-
+    </div>
 {% endblock content %}
