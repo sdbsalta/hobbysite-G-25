@@ -7,29 +7,27 @@
 {% block content %}
 <h7><a href="/home"> Return to Homepage </a></h7>
 <div class="container">
-    {% if request.user.is_authenticated %}
+    {% if user.is_authenticated %}
         <h1>My Threads:</h1>
         <ul>
-            {% for category in thread_category %}
-            {{ category.name }}
-                {% for thread in object_list %}
-                    <li>
-                        <div>
-                            <img src="{{ thread.image.url }}" alt="Image">
-                        </div>
-                        <div>
-                            <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
-                        </div>
-                    </li>
-                {% empty %}
+            {% for thread in user_threads %}
+                <li>
+                    <div>
+                        <img src="{{ thread.image.url }}" alt="Image">
+                    </div>
+                    <div>
+                        <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+                    </div>
+                </li>
+            {% empty %}
                 <li>No threads yet.</li>
-                {% endfor %}
             {% endfor %}
         </ul>
+        <h4><a href="{% url 'forum:thread_create' %}">Create Thread</a></h4>
     {% endif %}
 
-        <h1>All Threads:</h1>
-        <ul>
+    <h1>All Threads:</h1>
+    <ul>
         {% for category, threads in threads_by_category.items %}
             <h2>{{ category.name }}</h2>
             <ul>
@@ -47,9 +45,8 @@
         {% empty %}
             <p>No threads available.</p>
         {% endfor %}
-        </ul>
+    </ul>
 
-        <h4><a href="{% url 'forum:thread_create' %}">Create Thread</a></h4>
 </div>
 
 {% endblock content %}
