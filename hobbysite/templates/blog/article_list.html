@@ -7,6 +7,7 @@
 {% endblock title %}
 
 {% block content %}
+    {% if user.is_authenticated %}
     <h3>My Articles:</h3>
     <div>
         {% for article in user_articles %}
@@ -21,6 +22,7 @@
         {% empty %}
             No articles yet.
         {% endfor %}
+    {% endif %}
     </div>
 
     <a class="btn btn-primary" href="{% url 'blog:article_create' %}" role="button">Create Article</a>
