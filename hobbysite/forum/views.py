@@ -51,10 +51,9 @@ class ThreadDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['comment_form'] = CommentForm()
         context['comments'] = self.object.comment_set.all()
-
-        author_threads = Thread.objects.filter(author=self.object.author).exclude(pk=self.object.pk)[:2]
-        context['author_threads'] = author_threads
-
+        thread = self.get_object()
+        other_threads = Thread.objects.filter(category=thread.category).exclude(pk=thread.pk)
+        context['other_threads'] = other_threads
         return context
 
 
