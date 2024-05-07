@@ -65,7 +65,7 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('forum:thread_list')
 
     def form_valid(self, form):
-        form.instance.author = self.request.user.profile
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 
