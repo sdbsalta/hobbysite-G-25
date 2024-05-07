@@ -9,7 +9,7 @@ from .forms import CommentForm
 
 class ArticleListView(LoginRequiredMixin, ListView):
     model = Article
-    template_name = 'article_list.html'
+    template_name = 'blog/article_list.html'
     context_object_name = 'articles'
 
     def get_queryset(self):
@@ -43,7 +43,7 @@ class ArticleListView(LoginRequiredMixin, ListView):
 
 class ArticleDetailView(DetailView):
     model = Article
-    template_name = 'article_detail.html'
+    template_name = 'blog/article_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,7 +57,7 @@ class ArticleDetailView(DetailView):
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
-    template_name = 'article_form.html'
+    template_name = 'blog/article_form.html'
     fields = ['title', 'category', 'entry', 'header_image']
     success_url = reverse_lazy('blog:article_list')
 
@@ -67,7 +67,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
-    template_name = 'article_form.html'
+    template_name = 'blog/article_form.html'
     fields = ['title', 'category', 'entry', 'header_image']
     def get_success_url(self):
         return reverse_lazy('blog:article_detail', kwargs={'pk': self.object.pk})
