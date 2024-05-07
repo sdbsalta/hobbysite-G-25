@@ -7,7 +7,6 @@
 {% block content %}
 <h7><a href="/home"> Return to Homepage </a></h7>
 <div class="container">
-        <h1><a href="{% url 'forum:thread_create' %}">Create Thread</a></h1>
         <h1>My Threads:</h1>
         <ul>
             {% for thread in user_threads %}
@@ -44,9 +43,8 @@
             <p>No threads available.</p>
         {% endfor %}
         </ul>
-</div>
 
-{% endblock content %}
+        <h4><a href="{% url 'forum:thread_create' %}">Create Thread</a></h4>
 </div>
 
 {% endblock content %}
