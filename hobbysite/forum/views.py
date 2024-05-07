@@ -11,18 +11,29 @@ from user_management.models import Profile
 
 class ThreadListView(ListView):
     model = Thread
-    template_name = 'forum/thread_list.html'
+    template_name = 'thread_list.html'
     context_object_name = 'threads'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['thread_category'] = ThreadCategory.objects.all()
+        if self.request.user.is_authenticated:
+            user_threads = Thread.objects.filter(author=self.request.user)
+            other_threads = Thread.objects.exclude(author=self.request.user)
+            categories = ThreadCategory.objects.all()
+
+            threads_by_category = {}
+            for category in categories:
+                threads = other_threads.filter(category=category)
+                threads_by_category[category] = threads
+
+            context['user_threads'] = user_threads
+            context['threads_by_category'] = threads_by_category
         return context
 
 
 class ThreadDetailView(DetailView):
     model = Thread
-    template_name = 'forum/thread_detail.html'
+    template_name = 'thread_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,9 +45,9 @@ class ThreadDetailView(DetailView):
         return context
 
 
-class ThreadCreateView(LoginRequiredMixin, CreateView):
+class ThreadCreateView(CreateView):
     model = Thread
-    template_name = 'forum/thread_create.html'
+    template_name = 'thread_create.html'
     fields = ['title', 'category', 'entry', 'image']
     success_url = reverse_lazy('forum:thread_list')
 
@@ -47,7 +58,7 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
 
 class ThreadUpdateView(LoginRequiredMixin, UpdateView):
     model = Thread
-    template_name = 'forum/thread_create.html'
+    template_name = 'thread_create.html'
     fields = ['title', 'category', 'entry', 'image']
 
     def get_success_url(self):

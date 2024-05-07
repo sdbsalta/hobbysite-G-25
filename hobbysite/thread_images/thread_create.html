@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Forum: Create a Thread
+{% endblock title %}
+
+{% block content %}
+    <h2>{% if thread %}Edit Thread{% else %}Create Thread{% endif %}</h2>
+    <form action="{% if thread %}{% url 'forum:thread_update' thread.pk %}{% else %}{% url 'forum:thread_create' %}{% endif %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    
+{% endblock %}
