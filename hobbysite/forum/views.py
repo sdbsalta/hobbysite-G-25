@@ -11,7 +11,7 @@ from user_management.models import Profile
 
 class ThreadListView(LoginRequiredMixin, ListView):
     model = Thread
-    template_name = 'thread_list.html'
+    template_name = 'forum/thread_list.html'
     context_object_name = 'threads'
 
     def get_queryset(self):
@@ -45,7 +45,7 @@ class ThreadListView(LoginRequiredMixin, ListView):
 
 class ThreadDetailView(DetailView):
     model = Thread
-    template_name = 'thread_detail.html'
+    template_name = 'forum/thread_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -59,7 +59,7 @@ class ThreadDetailView(DetailView):
 
 class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
-    template_name = 'thread_create.html'
+    template_name = 'forum/thread_create.html'
     fields = ['title', 'category', 'entry', 'image']
     success_url = reverse_lazy('forum:thread_list')
 
@@ -70,7 +70,7 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
 
 class ThreadUpdateView(LoginRequiredMixin, UpdateView):
     model = Thread
-    template_name = 'thread_create.html'
+    template_name = 'forum/thread_create.html'
     fields = ['title', 'category', 'entry', 'image']
 
     def get_success_url(self):
