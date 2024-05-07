@@ -5,24 +5,25 @@
 {% endblock title %}
 
 {% block content %}
-<h7><a href="/home"> Return to Homepage </a></h7>
-<div class="container">
     {% if user.is_authenticated %}
-        <h3>My Threads:</h3>
-        <div>
-            {% for thread in user_threads %}
-                <li>
-                    <div>
+    <h3>My Threads:</h3>
+    <div>
+        {% for thread in threads %}
+            <div class="card">
+                <img src="{{ thread.image.url }}" class="card-img-top" alt="Image">
+                <div class="card-body">
+                    <h5 class="card-title">
                         <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
-                    </div>
-                </li>
-            {% empty %}
-                <li>No threads yet.</li>
-            {% endfor %}
-    {% endif %}
+                    </h5>
+                </div>
+            </div>
+        {% empty %}
+            <p>No threads yet.</p>
+        {% endfor %}
     </div>
 
-    <a class="btn btn-primary" href="{% url 'forum:thread_create' %}" role="button">Create Article</a>
+    <a class="btn btn-primary" href="{% url 'forum:thread_create' %}" role="button">Create Thread</a>
+    {% endif %}
 
     <hr class="solid">
 
