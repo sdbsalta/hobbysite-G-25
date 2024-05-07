@@ -14,24 +14,6 @@ class ThreadListView(ListView):
     template_name = 'thread_list.html'
     context_object_name = 'threads'
 
-    def get_queryset(self):
-        if self.request.user.is_authenticated:
-            user_threads = Thread.objects.filter(author=self.request.user)
-            other_threads = Thread.objects.exclude(author=self.request.user)
-            categories = ThreadCategory.objects.all()
-
-            threads_by_category = {}
-            for category in categories:
-                threads = other_threads.filter(category=category)
-                threads_by_category[category] = threads
-
-            queryset = list(user_threads) + list(other_threads)
-        else:
-            queryset = Thread.objects.all()
-            threads_by_category = {}
-
-        return queryset
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
