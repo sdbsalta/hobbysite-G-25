@@ -8,6 +8,7 @@
 <h7><a href="/home"> Return to Homepage </a></h7>
 <div class="container">
     {% if user.is_authenticated %}
+        <h4><a href="{% url 'forum:thread_create' %}">Create Thread</a></h4>
         <h1>My Threads:</h1>
         <ul>
             {% for thread in user_threads %}
@@ -23,7 +24,6 @@
                 <li>No threads yet.</li>
             {% endfor %}
         </ul>
-        <h4><a href="{% url 'forum:thread_create' %}">Create Thread</a></h4>
     {% endif %}
 
     <h1>All Threads:</h1>
