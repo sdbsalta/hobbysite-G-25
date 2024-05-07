@@ -6,6 +6,7 @@
 
 {% block content %}
     {% if user.is_authenticated %}
+        <h4><a href="{% url 'forum:thread_create' %}">Create Thread</a></h4>
         <h1>My Threads:</h1>
         <div>
             {% for thread in user_threads %}
