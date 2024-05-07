@@ -32,10 +32,12 @@
         <p>No comments yet.</p>
     {% endfor %}
 
-    <h2>More Articles By {{ article.author.username }}:</h2>
+    <h3>More Articles By {{ article.author.username }}:</h3>
     <ul>
-        {% for author_article in author_articles %}
-            <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
-        {% endfor %}
-    </ul>
+        <div>
+            {% for author_article in author_articles %}
+                <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
+            {% endfor %}
+        </div>
+    </ul>    
 {% endblock content %}
