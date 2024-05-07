@@ -18,20 +18,13 @@
     {% if request.user == thread.author %}
         <a href="{% url 'forum:thread_update' thread.pk %}" class="btn btn-primary">Edit</a>
     {% endif %}
-
-    <h2>Other Threads by {{ thread.author.username }}:</h2>
+    
+    <h2>Other Threads in the {{ thread.category.name }} Category:</h2>
     <ul>
-       {% for author_thread in author_threads %}
-            <li><a href="{{ author_thread.get_absolute_url }}">{{ author_thread.title }}</a></li>
+        {% for other_thread in other_threads %}
+            <li><a href="{{ other_thread.get_absolute_url }}">{{ other_thread.title }}</a></li>
         {% endfor %}
-    </ul>
-
-    <h2>Post a Comment:</h2>
-    <form action="{% url 'forum:comment_create_view' thread.pk %}" method="post">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit">Post Comment</button>
-    </form>
+    </ul>    
 
     <h2>Comments:</h2>
     {% for comment in comments %}
@@ -39,6 +32,13 @@
     {% empty %}
         <p>No comments yet.</p>
     {% endfor %}
+
+    <h2>Post a Comment:</h2>
+    <form action="{% url 'forum:comment_create_view' thread.pk %}" method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
 
 </div>
 {% endblock content %}
