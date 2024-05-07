@@ -5,7 +5,6 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Create a Thread</h1>
     <h2>{% if thread %}Edit Thread{% else %}Create Thread{% endif %}</h2>
     <form action="{% if thread %}{% url 'forum:thread_update' thread.pk %}{% else %}{% url 'forum:thread_create' %}{% endif %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
