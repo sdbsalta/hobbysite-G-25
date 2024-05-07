@@ -40,6 +40,8 @@
         <a class="btn btn-primary" href="{% url 'merchstore:product-add' %}" role="button">Create a New Product</a>
     {% endif %}
 
+    <hr class="solid">
+
     <h3>Products</h3>
     {% for type in product_type %}
         <h4>{{ type }}</h4>
