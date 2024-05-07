@@ -5,45 +5,41 @@
 {% endblock title %}
 
 {% block content %}
+<h7><a href="/home"> Return to Homepage </a></h7>
+<div class="container">
     {% if user.is_authenticated %}
         <h4><a href="{% url 'forum:thread_create' %}">Create Thread</a></h4>
         <h1>My Threads:</h1>
-        <div>
+        <ul>
             {% for thread in user_threads %}
-                <div class="card">
-                    <img src="{{ thread.image.url }}" class="card-img-top" alt="Image">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
-                        </h5>
+                <li>
+                    <div>
+                        <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
                     </div>
-                </div>
+                </li>
             {% empty %}
-            No threads yet.
+                <li>No threads yet.</li>
             {% endfor %}
-        </div>
-        <a class="btn btn-primary" href="{% url 'forum:thread_create' %}" role="button">Create Article</a>
+        </ul>
     {% endif %}
 
     <h1>All Threads:</h1>
-    <ul>
-        {% for category, threads in threads_by_category.items %}
+    {% for category, threads in threads_by_category.items %}
+        <div>
             <h2>{{ category.name }}</h2>
             <ul>
                 {% for thread in threads %}
                     <li>
-                        <div>
-                            <img src="{{ thread.image.url }}" alt="Image">
-                        </div>
                         <div>
                             <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
                         </div>
                     </li>
                 {% endfor %}
             </ul>
-        {% empty %}
-            <p>No threads available.</p>
-        {% endfor %}
-    </ul>
+        </div>
+    {% empty %}
+        <p>No threads available.</p>
+    {% endfor %}
+</div>
 
 {% endblock content %}
