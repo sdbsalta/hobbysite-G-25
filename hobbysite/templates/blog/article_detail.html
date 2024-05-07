@@ -5,7 +5,6 @@
 {% endblock title %}
 
 {% block content %}
-<div class="container">
     <h2>{{ article.title }}</h2>
     <img src="{{ article.header_image.url }}" alt="Header Image">
     <p><strong>Entry:</strong>{{ article.entry }}</p>
@@ -39,6 +38,4 @@
             <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
         {% endfor %}
     </ul>
-
-</div>
 {% endblock content %}
