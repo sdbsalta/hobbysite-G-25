@@ -17,6 +17,15 @@
     {% if request.user == article.author %}
     <a href="{% url 'blog:article_update' article.pk %}" class="btn btn-primary">Edit</a>
     {% endif %}
+    
+    <h3>More Articles By {{ article.author.username }}:</h3>
+    <ul>
+        <div>
+            {% for author_article in author_articles %}
+                <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
+            {% endfor %}
+        </div>
+    </ul>        
 
     <h2>Post a Comment:</h2>
     <form action="{% url 'blog:comment_create_view' article.pk %}" method="post">
@@ -32,12 +41,4 @@
         <p>No comments yet.</p>
     {% endfor %}
 
-    <h3>More Articles By {{ article.author.username }}:</h3>
-    <ul>
-        <div>
-            {% for author_article in author_articles %}
-                <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
-            {% endfor %}
-        </div>
-    </ul>    
 {% endblock content %}
