@@ -12,9 +12,11 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ('product_type',)
     list_editable = ('price', 'stock',)
+    readonly_fields = ('owner',)
 
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ['buyer', 'product', 'amount', 'status', 'created_on']
+    readonly_fields = ('buyer',)
     list_filter = ['status', 'created_on']
     search_fields = ['buyer__user__username', 'product__name']
     
