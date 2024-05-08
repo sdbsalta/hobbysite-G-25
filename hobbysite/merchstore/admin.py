@@ -8,12 +8,10 @@ class ProductTypeAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'product_type', 'description', 'price', 'stock',)
+    list_display = ('name', 'product_type', 'owner', 'price', 'stock',)
     search_fields = ('name',)
     list_filter = ('product_type',)
     list_editable = ('price', 'stock',)
-    readonly_fields = ('owner',)
-
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ['buyer', 'product', 'amount', 'status', 'created_on']
     readonly_fields = ('buyer',)
