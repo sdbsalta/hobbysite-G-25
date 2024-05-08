@@ -63,7 +63,7 @@ class ThreadUpdateView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('forum:thread_detail', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = self.request.user.profile
         return super().form_valid(form)
 
 
@@ -74,6 +74,6 @@ class CommentCreateView(LoginRequiredMixin, View):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.thread = thread
-            comment.author = request.user
+            comment.author = self.request.user.profile
             comment.save()
         return redirect('forum:thread_detail', pk=pk)
