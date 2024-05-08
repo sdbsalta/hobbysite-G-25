@@ -7,39 +7,15 @@ from django.urls import reverse_lazy
 from .models import Article, ArticleCategory
 from .forms import CommentForm
 
-class ArticleListView(LoginRequiredMixin, ListView):
+class ArticleListView(ListView):
     model = Article
     template_name = 'blog/article_list.html'
     context_object_name = 'articles'
-
-    def get_queryset(self):
-        user_articles = Article.objects.filter(author=self.request.user)
-        other_articles = Article.objects.exclude(author=self.request.user)
-        categories = ArticleCategory.objects.all()
-
-        articles_by_category = {}
-        for category in categories:
-            articles = other_articles.filter(category=category)
-            articles_by_category[category] = articles
-
-        queryset = list(user_articles) + list(other_articles)
-        return queryset
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_articles = Article.objects.filter(author=self.request.user)
-        other_articles = Article.objects.exclude(author=self.request.user)
-        categories = ArticleCategory.objects.all()
-
-        articles_by_category = {}
-        for category in categories:
-            articles = other_articles.filter(category=category)
-            articles_by_category[category] = articles
-
-        context['user_articles'] = user_articles
-        context['articles_by_category'] = articles_by_category
+        context['article_category'] = ArticleCategory.objects.all()
         return context
-
 
 class ArticleDetailView(DetailView):
     model = Article
