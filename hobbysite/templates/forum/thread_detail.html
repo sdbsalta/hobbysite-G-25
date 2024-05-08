@@ -31,7 +31,7 @@
 
     <h4>Comments:</h4>
     {% for comment in comments %}
-        <p>{{ comment.entry }}</p>
+        <p>{{ comment.author }}:{{ comment.entry }}</p>
     {% empty %}
         <p>No comments yet.</p>
     {% endfor %}
