@@ -14,16 +14,16 @@ from .models import Commission, Job, JobApplication
 
 class CommissionListView(ListView):
     model = Commission
-    template_name = 'commissions_list.html'
+    template_name = 'commissions/commissions_list.html'
     ordering = ['-created_on']
 
 class CommissionDetailView(DetailView):
     model = Commission
-    template_name = 'commissions_detail.html'
+    template_name = 'commissions/commissions_detail.html'
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):
     model = Commission
-    template_name = 'commissions_form.html'
+    template_name = 'commissions/commissions_form.html'
     fields = [
         'title',
         'description',
@@ -35,7 +35,7 @@ class CommissionCreateView(LoginRequiredMixin, CreateView):
 
 class CommissionUpdateView(LoginRequiredMixin, UpdateView):
     model = Commission
-    template_name = 'commissions_form.html'
+    template_name = 'commissions/commissions_form.html'
     fields = ['title', 'description', 'status']
 
     def form_valid(self, form):
