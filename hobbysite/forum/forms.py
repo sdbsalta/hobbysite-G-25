@@ -1,16 +1,17 @@
 from django import forms
 
 from .models import Thread, Comment
+from user_management.models import Profile
 
 
 class ThreadForm(forms.ModelForm):
+    
+    author = forms.ModelChoiceField(required=False, queryset=Profile.objects)
+
     class Meta:
         model = Thread
-        fields = ('title', 'category', 'entry', 'image')
+        fields='__all__'
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields.pop('author')
 
 class CommentForm(forms.ModelForm):
     class Meta:
