@@ -1,24 +1,38 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Commissions: Commission
-{% endblock title %}
-
-{% block styles %}
-    <link rel="stylesheet" href="./style.css">
-{% endblock styles %}
-
 {% block content %}
-    <h1>
-        <a href="/commissions/list">Commissions</a>
-    </h1>
-    <ul>
-        {% for commission in object_list %}
-            <li>
-                <a href="{{ commission.get_absolute_url }}">
-                    {{ commission }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-{% endblock content %}
+  <h2>Commissions</h2>
+  {% if user.is_authenticated %}
+    <h3>Your Commissions</h3>
+    {% for commission in user_commissions %}
+      <div>
+        <h4><a href="{% url 'commissions:commission_detail' commission.id %}">{{ commission.title }}</a></h4>
+        <p>{{ commission.description }}</p>
+        <p>Status: {{ commission.status }}</p>
+        <p>Created on: {{ commission.created_on }}</p>
+        <p>Updated on: {{ commission.updated_on }}</p>
+      </div>
+    {% endfor %}
+    <h3>Commissions You've Applied To</h3>
+    {% for application in user_applications %}
+      <div>
+        <h4><a href="{% url 'commissions:commission_detail' application.job.commission.id %}">{{ application.job.commission.title }}</a></h4>
+        <p>{{ application.job.commission.description }}</p>
+        <p>Status: {{ application.job.commission.status }}</p>
+        <p>Created on: {{ application.job.commission.created_on }}</p>
+        <p>Updated on: {{ application.job.commission.updated_on }}</p>
+      </div>
+    {% endfor %}
+  {% endif %}
+  <h3>All Commissions</h3>
+  {% for commission in commissions %}
+    <div>
+      <h4><a href="{% url 'commissions:commission_detail' commission.id %}">{{ commission.title }}</a></h4>
+      <p>{{ commission.description }}</p>
+      <p>Status: {{ commission.status }}</p>
+      <p>Created on: {{ commission.created_on }}</p>
+      <p>Updated on: {{ commission.updated_on }}</p>
+    </div>
+  {% endfor %}
+  <a href="{% url 'commissions:commission_add' %}">Add new commission</a>
+{% endblock %}
