@@ -1,6 +1,6 @@
 # merchstore/views.py
 
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -23,7 +23,6 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'merchstore/product_detail.html'
 
-    #TODO Do I need this?
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx["form"] = TransactionForm()
@@ -81,6 +80,15 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
                 form.cleaned_data['status'] = 'Out of Stock'
         product.save()
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+        form.fields['owner'].initial = Profile.objects.get(user=self.request.user)
+        form.fields['owner'].disabled = True
+        
+        context['form'] = form
+        return context
 
 class ProductCartView(LoginRequiredMixin, ListView):
     model = Transaction
