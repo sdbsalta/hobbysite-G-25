@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.db.models import Q
 
 from .models import Thread, ThreadCategory
 from .forms import CommentForm
@@ -17,18 +16,7 @@ class ThreadListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            user_threads = Thread.objects.filter(author=self.request.user)
-            other_threads = Thread.objects.filter(~Q(author=self.request.user))
-            categories = ThreadCategory.objects.all()
-
-            threads_by_category = {}
-            for category in categories:
-                threads = other_threads.filter(category=category)
-                threads_by_category[category] = threads
-
-            context['user_threads'] = user_threads
-            context['threads_by_category'] = threads_by_category
+        context['thread_category'] = ThreadCategory.objects.all()
         return context
 
 
