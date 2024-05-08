@@ -8,13 +8,13 @@
     <h2>{{ article.title }}</h2>
     <img src="{{ article.header_image.url }}" alt="Header Image">
     <p><strong>Entry:</strong>{{ article.entry }}</p>
-    <p><strong>Author:</strong> {{ article.author.username }}</p> 
+    <p><strong>Author:</strong> {{ article.author }}</p>
     <p><strong>Category:</strong> {{ article.category.name }}</p>
     <p><strong>Created On:</strong> {{ article.created_on }}</p>
     <p><strong>Updated On:</strong> {{ article.updated_on }}</p>
 
 
-    {% if request.user == article.author %}
+    {% if article.author == request.user.profile %}
     <a href="{% url 'blog:article_update' article.pk %}" class="btn btn-primary">Edit</a>
     {% endif %}
     
