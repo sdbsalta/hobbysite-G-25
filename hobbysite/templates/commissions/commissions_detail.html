@@ -1,20 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Commissions: Commission
-{% endblock title %}
-
-{% block styles %}
-    <link rel="stylesheet" href="./style.css">
-{% endblock styles %}
-
 {% block content %}
-    <h1>
-        <a href="/commissions/list">Commissions</a>
-    </h1>
-    <h1>{{ commission.title }}</h1>
-    <p>Description: {{ commission.description }}</p>
-    <p>People Required: {{ commission.people_required }}</p>
-    <p>Created On: {{ commission.created_on }}</p>
-    <p>Updated On: {{ commission.updated_on }}</p>
-{% endblock content %}
+  <h2>{{ commission.title }}</h2>
+  <p>{{ commission.description }}</p>
+  <p>Status: {{ commission.status }}</p>
+  <p>Created on: {{ commission.created_on }}</p>
+  <p>Updated on: {{ commission.updated_on }}</p>
+  {% if user == commission.author %}
+    <a href="{% url 'commissions:commission_update' commission.id %}">Edit</a>
+  {% endif %}
+  <h3>Jobs</h3>
+  {% for job in jobs %}
+    <div>
+      <h4>{{ job.role }}</h4>
+      <p>Manpower required: {{ job.manpower_required }}</p>
+      <p>Status: {{ job.status }}</p>
+      {% if user.is_authenticated and job.status == 'Open' %}
+        <form method="post" action="#">
+          {% csrf_token %}
+          <input type="hidden" name="job_id" value="{{ job.id }}">
+          <button type="submit">Apply to Job</button>
+        </form>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endblock %}

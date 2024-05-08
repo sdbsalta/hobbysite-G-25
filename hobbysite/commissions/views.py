@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,19 +7,35 @@ from django.utils import timezone
 from user_management.models import Profile
 
 from .models import Commission, Job, JobApplication
-# import from forms if needed later
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Commission, Job, JobApplication
+from .forms import CommissionForm, JobForm, JobApplicationForm
 
-class CommissionListView(ListView):
+class CommissionListView(LoginRequiredMixin, ListView):
     model = Commission
     template_name = 'commissions/commissions_list.html'
     ordering = ['-created_on']
 
-class CommissionDetailView(DetailView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['user_commissions'] = Commission.objects.filter(author=self.request.user).order_by('-created_on')
+            context['user_applications'] = JobApplication.objects.filter(applicant=self.request.user.profile).order_by('-applied_on')
+        return context
+
+class CommissionDetailView(LoginRequiredMixin, DetailView):
     model = Commission
     template_name = 'commissions/commissions_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['jobs'] = Job.objects.filter(commission=self.object)
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        job_id = request.POST.get('job_id')
+        job = get_object_or_404(Job, id=job_id)
+        JobApplication.objects.create(job=job, applicant=request.user.profile)
+        return redirect('commissions:commission_detail', pk=self.object.pk)
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):
     model = Commission
@@ -27,7 +43,9 @@ class CommissionCreateView(LoginRequiredMixin, CreateView):
     fields = [
         'title',
         'description',
-        'status']
+        'status'
+        ]
+    login_url = '/login/'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -37,7 +55,12 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
     model = Commission
     template_name = 'commissions/commissions_form.html'
     fields = ['title', 'description', 'status']
+    login_url = '/login/'
 
     def form_valid(self, form):
-        form.instance.updated_on = timezone.now()
+        commission = form.save(commit=False)
+        if all(job.status == 'Full' for job in commission.job.all()):
+            commission.status = 'Full'
+        commission.updated_on = timezone.now()
+        commission.save()
         return super().form_valid(form)

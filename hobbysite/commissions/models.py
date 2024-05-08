@@ -40,11 +40,11 @@ class Job(models.Model):
             'role'
             ]
         
-    #def __str__(self):
-    #    return self.title
+    def __str__(self):
+        return self.role
 
     def get_absolute_url(self):
-        return reverse('commissions:job-detail', args=[self.pk])
+        return reverse('commissions:commission_detail', args=[self.pk])
     
 class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='job_application')
