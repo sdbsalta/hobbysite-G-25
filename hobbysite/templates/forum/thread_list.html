@@ -1,38 +1,38 @@
 {% extends 'base.html' %}
 
 {% block title %}
-     Forum
+    Forum
 {% endblock title %}
 
 {% block content %}
     {% if user.is_authenticated %}
-    <h3>My Threads:</h3>
-    <div>
-        {% for thread in threads %}
-            <h5 class="card-title">
-                <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
-            </h5>
-        {% empty %}
-            <p>No threads yet.</p>
-        {% endfor %}
+        <h3>My Threads:</h3>
+        <div>
+            {% for thread in user_threads %}
+                <h5 class="card-title">
+                    <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+                </h5>
+            {% empty %}
+                <p>No threads yet.</p>
+            {% endfor %}
+        </div>
     {% endif %}
-    </div>
 
     <a class="btn btn-primary" href="{% url 'forum:thread_create' %}" role="button">Create Thread</a>
-    
+
     <hr class="solid">
 
     <h3>All Threads:</h3>
     <div>
         {% for category, threads in threads_by_category.items %}
             <h4>{{ category.name }}</h4>
-                {% for thread in threads %}
+            {% for thread in threads %}
                 <h5 class="card-title">
                     <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
                 </h5>
-            {% endfor %}        
+            {% endfor %}
         {% empty %}
-        <p>No threads available.</p>
+            <p>No threads available.</p>
         {% endfor %}
     </div>
 {% endblock content %}
