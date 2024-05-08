@@ -11,6 +11,7 @@
             {% for thread in user_threads %}
                     <li class="list-group-item">
                         <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
+                        <span class="badge bg-primary rounded-pill"> {{ thread.category }} </span>
                     </li>
             {% empty %}
                 <p>No threads yet.</p>
