@@ -38,7 +38,7 @@ class Product(models.Model):
         )
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField(null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Available')
     
     def __str__(self):
