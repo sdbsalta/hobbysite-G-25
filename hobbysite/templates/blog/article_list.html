@@ -16,9 +16,11 @@
                     {% if article.author == request.user.profile %}
                     <div class="card">
                         <img src="{{ article.header_image.url }}" class="card-img-top" alt="Header Image">
-                        <h5 class="card-title">
-                            <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
-                        </h5>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
+                            </h5>
+                        </div>
                     </div>
                     {% endif %}
                 {% endfor %}
