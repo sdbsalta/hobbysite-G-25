@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 from .models import Thread, ThreadCategory
-from .forms import CommentForm
+from .forms import CommentForm, ThreadForm
 
 from user_management.models import Profile
 
@@ -36,13 +36,22 @@ class ThreadDetailView(DetailView):
 
 class ThreadCreateView(CreateView):
     model = Thread
+    form_class = ThreadForm
     template_name = 'forum/thread_create.html'
-    fields = ['title', 'category', 'entry', 'image']
     success_url = reverse_lazy('forum:thread_list')
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = self.request.user.profile
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+        form.fields['author'].initial = Profile.objects.get(user=self.request.user)
+        form.fields['author'].disabled = True
+        
+        context['form'] = form
+        return context
 
 
 class ThreadUpdateView(LoginRequiredMixin, UpdateView):
