@@ -7,33 +7,35 @@
 {% block content %}
     {% if user.is_authenticated %}
         <h3>My Threads:</h3>
-            <ul class="list-group list-group-flush">
-            {% for thread in user_threads %}
-                    <li class="list-group-item">
+        <div>
+            {% for thread in object_list %}
+                {% if thread.author == request.user.profile.user %}
+                    <h5 class="card-title">
                         <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
-                        <span class="badge bg-primary rounded-pill"> {{ thread.category }} </span>
-                    </li>
+                    </h5>
+                {% endif %}
             {% empty %}
                 <p>No threads yet.</p>
             {% endfor %}
-            </ul>
+        </div>
+        <a class="btn btn-primary" href="{% url 'forum:thread_create' %}" role="button">Create Thread</a>
     {% endif %}
-
-    <a class="btn btn-primary" href="{% url 'forum:thread_create' %}" role="button">Create Thread</a>
 
     <hr class="solid">
 
     <h3>All Threads:</h3>
-        <ul class="list-group list-group-flush">
-        {% for category, threads in threads_by_category.items %}
+    <div>
+        {% for category in thread_category %}
             <h4>{{ category.name }}</h4>
-            {% for thread in threads %}
-                <li class="list-group-item">
+            {% for thread in object_list %}
+                {% if thread.author != request.user.profile.user %}
+                <h5 class="card-title">
                     <a href="{% url 'forum:thread_detail' thread.pk %}">{{ thread.title }}</a>
-                </li>
+                </h5>
+                {% endif %}
             {% endfor %}
         {% empty %}
             <p>No threads available.</p>
         {% endfor %}
-        </ul>
+    </div>
 {% endblock content %}
