@@ -3,9 +3,13 @@
 from django import forms
 from django.contrib import admin
 
+from user_management.models import Profile
+
 from .models import Product, Transaction
 
 class ProductForm(forms.ModelForm):
+    
+    owner = forms.ModelChoiceField(required=False, queryset=Profile.objects)
     class Meta:
         model = Product
         fields = '__all__'

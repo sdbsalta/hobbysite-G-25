@@ -2,7 +2,7 @@
 
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from user_management.models import Profile
@@ -44,7 +44,7 @@ class ProductDetailView(DetailView):
                 product.save()
                 return redirect('merchstore:cart')
             else:
-                return redirect('login')
+                return redirect(reverse('login') + '?next=' + request.path)
         return self.render_to_response(self.get_context_data(form=form))
 
 class ProductCreateView(CreateView):
@@ -78,6 +78,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         if form.is_valid():
             if product.stock == 0:
                 form.cleaned_data['status'] = 'Out of Stock'
+            form.instance.owner = Profile.objects.get(user=self.request.user)
         product.save()
         return super().form_valid(form)
     
