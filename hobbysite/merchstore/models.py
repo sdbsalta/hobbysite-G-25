@@ -29,12 +29,12 @@ class Product(models.Model):
         ProductType, 
         on_delete=models.SET_NULL, 
         null=True, 
-        blank=True,
         )
     owner = models.ForeignKey(
         Profile, 
         null=True,
         on_delete=models.CASCADE,
+        blank=True,
         )
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
