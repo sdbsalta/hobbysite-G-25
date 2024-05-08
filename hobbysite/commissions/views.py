@@ -9,7 +9,7 @@ from user_management.models import Profile
 from .models import Commission, Job, JobApplication
 from .forms import CommissionForm, JobForm, JobApplicationForm
 
-class CommissionListView(LoginRequiredMixin, ListView):
+class CommissionListView(ListView):
     model = Commission
     template_name = 'commissions/commissions_list.html'
     ordering = ['-created_on']
