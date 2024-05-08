@@ -36,23 +36,27 @@
 
     <h3>All Articles:</h3>
     <div>
-        {% for category in article_category %}
-        <h4>{{ category.name }}</h4>
-            {% for article in object_list %}
-                {% if article.author != request.user.profile %} 
-                <div class="card">
-                    <img src="{{ article.header_image.url }}" class="card-img-top" alt="Header Image">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
-                        </h5>
-                    </div>
-                </div>
-                {% endif %}
+        {% if user.is_authenticated %}
+                {% for category in article_category %}
+                <h4>{{ category.name }}</h4>
+                    {% for article in object_list %}
+                            {% if article.author != request.user.profile %} 
+                                <div class="card">
+                                    <img src="{{ article.header_image.url }}" class="card-img-top" alt="Header Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="{% url 'blog:article_detail' article.pk %}">{{ article.title }}</a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            {% endif %}
+                    {% endfor %}
+            {% empty %}
+                No articles yet.
             {% endfor %}
-        {% empty %}
-            No articles yet.
-        {% endfor %}
+        {% else %}
+            <p>Please login to view articles.</p>
+        {% endif %}
     </div>
 {% endblock content %}
 
