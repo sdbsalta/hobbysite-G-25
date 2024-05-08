@@ -7,7 +7,7 @@
 {% block content %}
 <div class="container">
     <h2>{{ thread.title }}</h2>
-    <p><strong>Author:</strong> {{ thread.author.username }} </p>
+    <p><strong>Author:</strong> {{ thread.author }} </p>
     <p><strong>Category:</strong> {{ thread.category.name}}</p>
     <p><strong>Entry:</strong> {{thread.entry}}</p>
     {% if thread.image.url is not null %}
@@ -16,7 +16,7 @@
     <p><strong>Created On:</strong> {{ thread.created_on }}</p>
     <p><strong>Updated On:</strong> {{ thread.updated_on }}</p>
     
-    {% if request.user == thread.author %}
+    {% if thread.author == request.user.profile %}
         <a href="{% url 'forum:thread_update' thread.pk %}" class="btn btn-primary">Edit</a>
     {% endif %}
     
