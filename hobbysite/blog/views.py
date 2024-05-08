@@ -72,7 +72,7 @@ class CommentCreateView(LoginRequiredMixin, View):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.article = article
-            comment.author = request.user
+            comment.author = request.user.profile
             comment.save()
         return redirect('blog:article_detail', pk=pk)
 
