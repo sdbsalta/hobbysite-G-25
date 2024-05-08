@@ -5,7 +5,9 @@ from django.views.generic import View, ListView, DetailView, CreateView, UpdateV
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Article, ArticleCategory
-from .forms import CommentForm
+from .forms import ArticleForm, CommentForm
+
+from user_management.models import Profile
 
 class ArticleListView(ListView):
     model = Article
@@ -31,15 +33,25 @@ class ArticleDetailView(DetailView):
         
         return context
 
-class ArticleCreateView(LoginRequiredMixin, CreateView):
+class ArticleCreateView(CreateView):
     model = Article
+    form_class = ArticleForm
     template_name = 'blog/article_form.html'
-    fields = ['title', 'category', 'entry', 'header_image']
     success_url = reverse_lazy('blog:article_list')
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.author = self.request.user.profile
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+        form.fields['author'].initial = Profile.objects.get(user=self.request.user)
+        form.fields['author'].disabled = True
+        
+        context['form'] = form
+        return context
+    
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article

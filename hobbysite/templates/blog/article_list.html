@@ -13,7 +13,7 @@
             <h4>{{ category.name }}</h4>
             <div>
                 {% for article in object_list %}
-                    {% if article.author == self.request.user.profile %}
+                    {% if article.author == request.user.profile %}
                     <div class="card">
                         <img src="{{ article.header_image.url }}" class="card-img-top" alt="Header Image">
                         <h5 class="card-title">
@@ -37,7 +37,7 @@
         {% for category in article_category %}
         <h4>{{ category.name }}</h4>
             {% for article in object_list %}
-                {% if article.author != self.request.user.profile %} 
+                {% if article.author != request.user.profile %} 
                 <div class="card">
                     <img src="{{ article.header_image.url }}" class="card-img-top" alt="Header Image">
                     <div class="card-body">

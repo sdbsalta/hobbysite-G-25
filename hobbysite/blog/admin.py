@@ -5,6 +5,8 @@ from .models import ArticleCategory, Article, Comment
 
 class ArticleAdmin(admin.ModelAdmin):
     fields = ('title', 'category', 'entry', 'header_image')
+    list_display = ['title','author']
+
 
     def get_fields(self, request, obj=None):
         if obj:
