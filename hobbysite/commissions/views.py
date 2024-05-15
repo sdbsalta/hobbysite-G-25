@@ -27,7 +27,18 @@ class CommissionDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+<<<<<<< HEAD
         context['jobs'] = Job.objects.filter(commission=self.object)
+=======
+        jobs = Job.objects.filter(commission=self.object)
+
+        for job in jobs:
+            job.is_full = job.job_application_set.filter(status='Accepted').count() >= job.manpower_required
+
+        context['jobs'] = jobs
+        context['total_manpower_required'] = sum(job.manpower_required for job in jobs)
+        context['total_open_manpower'] = sum(job.manpower_required - job.job_application_set.filter(status='Accepted').count() for job in jobs)
+>>>>>>> commissions_poch
         return context
     
     def post(self, request, *args, **kwargs):
@@ -43,19 +54,46 @@ class CommissionCreateView(LoginRequiredMixin, CreateView):
     fields = [
         'title',
         'description',
+<<<<<<< HEAD
         'status'
         ]
     login_url = '/login/'
+=======
+        'status',
+        'created_on',
+        'updated_on'
+        ]
+    login_url = 'login'
+>>>>>>> commissions_poch
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+        form.fields['author'].initial = Profile.objects.get(user=self.request.user)
+        form.fields['author'].disabled = True
+        form.fields['created_on'].disabled = True
+        form.fields['updated_on'].disabled = True
 
 class CommissionUpdateView(LoginRequiredMixin, UpdateView):
     model = Commission
     template_name = 'commissions/commissions_form.html'
+<<<<<<< HEAD
     fields = ['title', 'description', 'status']
     login_url = '/login/'
+=======
+    fields = [
+        'title',
+        'description',
+        'status',
+        'created_on',
+        'updated_on'
+        ]
+    login_url = 'login'
+>>>>>>> commissions_poch
 
     def form_valid(self, form):
         commission = form.save(commit=False)
@@ -64,3 +102,10 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
         commission.updated_on = timezone.now()
         commission.save()
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+        form.fields['author'].initial = Profile.objects.get(user=self.request.user)
+        form.fields['author'].disabled = True
+        form.fields['created_on'].disabled = True

@@ -61,4 +61,4 @@ class JobApplication(models.Model):
         ordering = ['status', '-applied_on']
 
     def __str__(self):
-        return str(self.job) # check    
+        return str(self.status)  
